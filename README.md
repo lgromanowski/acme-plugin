@@ -1,5 +1,5 @@
-# letsencrypt-plugin
-`letsencrypt-plugin` is a helper for [Let's Encrypt](https://letsencrypt.org/) service for retrieving SSL certificates (without using sudo, like original letsencrypt client does)
+# letsencrypt-plugin [![Build Status](https://travis-ci.org/lgromanowski/letsencrypt-plugin.svg?branch=master)](https://travis-ci.org/lgromanowski/letsencrypt-plugin)
+`letsencrypt-plugin` is a Ruby on Rails helper for [Let's Encrypt](https://letsencrypt.org/) service for retrieving SSL certificates (without using sudo, like original letsencrypt client does)
 
 ## Installation
 
