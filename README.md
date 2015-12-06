@@ -5,7 +5,7 @@
 
 Add below line to your application's Gemfile:
 ```ruby
-gem 'letsencrypt-plugin'
+gem 'letsencrypt_plugin'
 ```
 And then execute:
 ```bash
