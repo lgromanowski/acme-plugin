@@ -1,5 +1,5 @@
 # letsencrypt-plugin [![Build Status](https://travis-ci.org/lgromanowski/letsencrypt-plugin.svg?branch=master)](https://travis-ci.org/lgromanowski/letsencrypt-plugin) [![Gem Version](https://badge.fury.io/rb/letsencrypt_plugin.svg)](https://badge.fury.io/rb/letsencrypt_plugin)
-`letsencrypt-plugin` is a Ruby on Rails helper for [Let's Encrypt](https://letsencrypt.org/) service for retrieving SSL certificates (without using sudo, like original letsencrypt client does)
+`letsencrypt-plugin` is a Ruby on Rails helper for [Let's Encrypt](https://letsencrypt.org/) service for retrieving SSL certificates (without using sudo, like original letsencrypt client does). It uses [acme-client](https://github.com/unixcharles/acme-client) gem for communication with Let's Encrypt server.
 
 ## Installation
 
@@ -16,7 +16,7 @@ Or install it yourself as:
 $ gem install letsencrypt_plugin
 ```
 
-After that you have to run two following commands to copy letsencrypt_plugin migration to your application and create `Challenges` table: 
+After that you have to run two following commands to copy letsencrypt_plugin database migration to your application and create `Challenges` table: 
 ```bash
 $ rake letsencrypt_plugin:install:migrations
 ```
@@ -44,7 +44,7 @@ test:
 ```
 into `Rails.root/config/letsencrypt_plugin.yml` file. Both `private_key` and `output_cert_dir` must exist (they wont be created automaticaly).
 
-Last thing is to mount `letsencrypt_plugin` engine in routes.rb:
+And the last thing which should be done is to mount `letsencrypt_plugin` engine in routes.rb:
 
 ```ruby
 Rails.application.routes.draw do
