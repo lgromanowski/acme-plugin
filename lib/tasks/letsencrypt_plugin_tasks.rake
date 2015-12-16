@@ -72,13 +72,7 @@ task :letsencrypt_plugin => :setup_logger do
 
   def create_csr(certificate_private_key)
     Rails.logger.info("Creating CSR...")
-    csr = OpenSSL::X509::Request.new
-    csr.subject = OpenSSL::X509::Name.new([
-      ['CN', CONFIG[:domain], OpenSSL::ASN1::UTF8STRING]
-    ])
-    csr.public_key = certificate_private_key.public_key
-    csr.sign(certificate_private_key, OpenSSL::Digest::SHA256.new)
-    csr
+    Acme::CertificateRequest.new(names: CONFIG[:domain])
   end
   
   # Save the certificate and key
