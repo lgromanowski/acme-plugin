@@ -1,7 +1,7 @@
 # letsencrypt-plugin [![Build Status](https://travis-ci.org/lgromanowski/letsencrypt-plugin.svg?branch=master)](https://travis-ci.org/lgromanowski/letsencrypt-plugin) [![Gem Version](https://badge.fury.io/rb/letsencrypt_plugin.svg)](https://badge.fury.io/rb/letsencrypt_plugin) [![Dependency Status](https://gemnasium.com/lgromanowski/letsencrypt-plugin.svg)](https://gemnasium.com/lgromanowski/letsencrypt-plugin)
 `letsencrypt-plugin` is a Ruby on Rails helper for [Let's Encrypt](https://letsencrypt.org/) service for retrieving SSL certificates (without using sudo, like original letsencrypt client does). It uses [acme-client](https://github.com/unixcharles/acme-client) gem for communication with Let's Encrypt server.
 
-**Important note:** As of v0.0.2 expicit dependency to SQLite has been removed (so this gem can be used on [Heroku](https://www.heroku.com/)), but it still need database to store challenge response, so you have to add some database gem to your application (ie. pg, mysql or sqlite)
+**Important note:** As of version 0.0.3 of this gem dependency to SQLite has been removed (so this gem can be used on [Heroku](https://www.heroku.com/)), but it still need database to store challenge response, so you have to add some database gem to your application (ie. pg, mysql or sqlite)
  
 
 ## Installation
@@ -45,7 +45,11 @@ development:
 test:
   <<: *default
 ```
-and put it into `Rails.root/config/letsencrypt_plugin.yml` file. Both `private_key` and `output_cert_dir` must exist (they wont be created automaticaly).
+and put it into `Rails.root/config/letsencrypt_plugin.yml` file. If you don't have already generated key you can create it by running following command:
+```bash
+$ openssl genrsa 4096 > key/keyfile.pem
+```
+`output_cert_dir` must exist - it wont be created automaticaly.
 
 Next, you have to mount `letsencrypt_plugin` engine in routes.rb:
 
