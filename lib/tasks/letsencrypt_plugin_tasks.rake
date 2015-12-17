@@ -14,7 +14,7 @@ task :letsencrypt_plugin => :setup_logger do
     client ||= Acme::Client.new(private_key: load_private_key, endpoint: CONFIG[:endpoint])
     Rails.logger.info("Trying to register at Let's Encrypt service...")
     begin
-      registration = client.register(contact: 'mailto:#{CONFIG[:email]}')
+      registration = client.register(contact: "mailto:#{CONFIG[:email]}")
       registration.agree_terms
       Rails.logger.info("Registration succeed.")
     rescue
@@ -35,12 +35,12 @@ task :letsencrypt_plugin => :setup_logger do
       certificate_private_key = OpenSSL::PKey::RSA.new(2048)
       csr = create_csr(certificate_private_key)
       # We can now request a certificate
-      certificate = client.new_certificate(csr) # => #<Acme::Certificate ....>
+      certificate = client.new_certificate(csr)
       save_certificate(certificate, certificate_private_key)
 
       Rails.logger.info("Certificate has been generated.")
     else
-      Rails.logger.error("Challenge verification failed!")
+      Rails.logger.error("Challenge verification failed! Error: #{challenge.error['type']}: #{challenge.error['detail']}")
     end
   end
   
@@ -58,7 +58,7 @@ task :letsencrypt_plugin => :setup_logger do
     else
       ch.update(:response => challenge.file_content)
     end
-    sleep(1)
+    sleep(2)
   end
 
   def wait_for_status(challenge)
@@ -72,13 +72,7 @@ task :letsencrypt_plugin => :setup_logger do
 
   def create_csr(certificate_private_key)
     Rails.logger.info("Creating CSR...")
-    csr = OpenSSL::X509::Request.new
-    csr.subject = OpenSSL::X509::Name.new([
-      ['CN', CONFIG[:domain], OpenSSL::ASN1::UTF8STRING]
-    ])
-    csr.public_key = certificate_private_key.public_key
-    csr.sign(certificate_private_key, OpenSSL::Digest::SHA256.new)
-    csr
+    Acme::CertificateRequest.new(names: [ CONFIG[:domain] ])
   end
   
   # Save the certificate and key

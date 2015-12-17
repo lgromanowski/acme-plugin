@@ -5,8 +5,12 @@ module LetsencryptPlugin
     def index
       # There is only one item in DB with challenge response from our task
       # we will use it to render plain text response
-      @response = Challenge.first
-      render plain: @response.response
+      response = Challenge.first
+      if !response.nil?
+        render plain: response.response
+      else
+        challenge_failed 
+      end
     end
     
     private
