@@ -1,5 +1,8 @@
-# letsencrypt-plugin [![Build Status](https://travis-ci.org/lgromanowski/letsencrypt-plugin.svg?branch=master)](https://travis-ci.org/lgromanowski/letsencrypt-plugin) [![Gem Version](https://badge.fury.io/rb/letsencrypt_plugin.svg)](https://badge.fury.io/rb/letsencrypt_plugin)
+# letsencrypt-plugin [![Build Status](https://travis-ci.org/lgromanowski/letsencrypt-plugin.svg?branch=master)](https://travis-ci.org/lgromanowski/letsencrypt-plugin) [![Gem Version](https://badge.fury.io/rb/letsencrypt_plugin.svg)](https://badge.fury.io/rb/letsencrypt_plugin) [![Dependency Status](https://gemnasium.com/lgromanowski/letsencrypt-plugin.svg)](https://gemnasium.com/lgromanowski/letsencrypt-plugin)
 `letsencrypt-plugin` is a Ruby on Rails helper for [Let's Encrypt](https://letsencrypt.org/) service for retrieving SSL certificates (without using sudo, like original letsencrypt client does). It uses [acme-client](https://github.com/unixcharles/acme-client) gem for communication with Let's Encrypt server.
+
+**Important note:** As of v0.0.2 expicit dependency to SQLite has been removed (so this gem can be used on [Heroku](https://www.heroku.com/)), but it still need database to store challenge response, so you have to add some database gem to your application (ie. pg, mysql or sqlite)
+ 
 
 ## Installation
 
@@ -16,7 +19,7 @@ Or install it yourself as:
 $ gem install letsencrypt_plugin
 ```
 
-After that you have to run two following commands to copy letsencrypt_plugin database migration to your application and create `Challenges` table: 
+After that you have to run two following commands to copy letsencrypt_plugin database migration to your application and create `letsencrypt_plugin_challenges` table: 
 ```bash
 $ rake letsencrypt_plugin:install:migrations
 ```
@@ -24,7 +27,7 @@ $ rake letsencrypt_plugin:install:migrations
 $ rake db:migration RAILS_ENV=production
 ```
 
-Next thing is to create configuration file (template below):
+Next, you have to create configuration (template below):
 ```yaml
 default: &default
   endpoint: "https://acme-v01.api.letsencrypt.org/"
@@ -42,9 +45,9 @@ development:
 test:
   <<: *default
 ```
-into `Rails.root/config/letsencrypt_plugin.yml` file. Both `private_key` and `output_cert_dir` must exist (they wont be created automaticaly).
+and put it into `Rails.root/config/letsencrypt_plugin.yml` file. Both `private_key` and `output_cert_dir` must exist (they wont be created automaticaly).
 
-And the last thing which should be done is to mount `letsencrypt_plugin` engine in routes.rb:
+Next, you have to mount `letsencrypt_plugin` engine in routes.rb:
 
 ```ruby
 Rails.application.routes.draw do
@@ -55,11 +58,18 @@ Rails.application.routes.draw do
 end
 ```
 
+and restart your application:
+```bash
+$ touch tmp/restart.txt
+```
+
 ## Usage
+Run `letsencrypt_plugin` rake task:
+```bash
+$ rake letsencrypt_plugin RAILS_ENV=production
+```
 
-```$ rake letsencrypt_plugin RAILS_ENV=production```
-
-Output:
+If everything was done correctly, then you should see output similar to the one below:
 ```bash
 I, [2015-12-06T17:28:15.582308 #25931]  INFO -- : Loading private key...
 I, [2015-12-06T17:28:15.582592 #25931]  INFO -- : Trying to register at Let's Encrypt service...
@@ -71,7 +81,7 @@ I, [2015-12-06T17:28:21.643566 #25931]  INFO -- : Creating CSR...
 I, [2015-12-06T17:28:22.173471 #25931]  INFO -- : Saving certificates and key...
 I, [2015-12-06T17:28:22.174312 #25931]  INFO -- : Certificate has been generated.
 ```
-If everything goes correctly than in `output_cert_dir` directory there should be four files:
+and in `output_cert_dir` directory you should have four files:
 - domain.name-cert.pem - Domain certificate
 - domain.name-chain.pem - Chained certificate
 - domain.name-fullchain.pem - Full chain of certificates
