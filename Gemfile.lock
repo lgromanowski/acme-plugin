@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    letsencrypt_plugin (0.0.3)
+    letsencrypt_plugin (0.0.4)
       acme-client (~> 0.2.2)
       rails (~> 4.2.5)
 
