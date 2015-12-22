@@ -1,5 +1,5 @@
 require 'openssl'
-require 'acme-client'
+require 'acme/client'
 
 #Sets up logging - should only be called from other rake tasks
 task setup_logger: :environment do
