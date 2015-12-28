@@ -31,21 +31,11 @@ $ rake db:migration RAILS_ENV=production
 
 Next, you have to create configuration (template below):
 ```yaml
-default: &default
-  endpoint: "https://acme-v01.api.letsencrypt.org/"
-  email: "your@email.address"
-  domain: "example.com"
-  private_key: "key/keyfile.pem"                            # in Rails.root
-  output_cert_dir: "certificates"                           # in Rails.root
-  
-production:
-  <<: *default
-  
-development:
-  <<: *default
-
-test:
-  <<: *default
+endpoint: "https://acme-v01.api.letsencrypt.org/"
+email: "your@email.address"
+domain: "example.com"
+private_key: "key/keyfile.pem"                            # in Rails.root
+output_cert_dir: "certificates"                           # in Rails.root
 ```
 and put it into `Rails.root/config/letsencrypt_plugin.yml` file. If you don't have previously generated private key you can create it by running following command:
 ```bash
