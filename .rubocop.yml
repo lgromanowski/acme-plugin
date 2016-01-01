@@ -2,8 +2,6 @@ Rails:
   Enabled: true
 Metrics/LineLength:
   Max: 140
-DisplayStyleGuide: true
-
 AllCops:
   Include:
     - '**/*.gemspec'
