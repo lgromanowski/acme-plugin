@@ -1,4 +1,3 @@
 Rails.application.routes.draw do
-
-  mount LetsencryptPlugin::Engine => "/"
+  mount LetsencryptPlugin::Engine => '/'
 end

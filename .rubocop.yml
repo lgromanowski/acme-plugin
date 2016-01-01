@@ -22,6 +22,7 @@ AllCops:
     - '**/Vagabondfile'
   Exclude:
     - 'db/**/*'
+    - 'test/dummy/db/**/*'
     - 'config/**/*'
     - 'script/**/*'
     - !ruby/regexp /old_and_unused\.rb$/

@@ -1,7 +1,7 @@
 require 'openssl'
 require 'acme/client'
 
-#Sets up logging - should only be called from other rake tasks
+# Sets up logging - should only be called from other rake tasks
 task setup_logger: :environment do
   logger           = Logger.new(STDOUT)
   logger.level     = Logger::INFO
@@ -9,58 +9,58 @@ task setup_logger: :environment do
 end
 
 desc "Generates SSL certificate using Let's Encrypt service"
-task :letsencrypt_plugin => :setup_logger do
-  def generate_certificate()
+task letsencrypt_plugin: :setup_logger do
+  def generate_certificate
     client ||= Acme::Client.new(private_key: load_private_key, endpoint: CONFIG[:endpoint])
-    Rails.logger.info("Trying to register at Let's Encrypt service...")
+    Rails.logger.info('Trying to register at Let\'s Encrypt service...')
     begin
       registration = client.register(contact: "mailto:#{CONFIG[:email]}")
       registration.agree_terms
-      Rails.logger.info("Registration succeed.")
+      Rails.logger.info('Registration succeed.')
     rescue
-      Rails.logger.info("Already registered.")
+      Rails.logger.info('Already registered.')
     end
 
-    Rails.logger.info("Sending authorization request...")
+    Rails.logger.info('Sending authorization request...')
     authorization = client.authorize(domain: CONFIG[:domain])
     challenge = authorization.http01
-    
+
     store_challenge(challenge)
 
     challenge.request_verification # => true
-    
+
     wait_for_status(challenge)
-    
+
     if challenge.verify_status == 'valid'
       # We can now request a certificate
       certificate = client.new_certificate(create_csr)
       save_certificate(certificate)
 
-      Rails.logger.info("Certificate has been generated.")
+      Rails.logger.info('Certificate has been generated.')
     else
       Rails.logger.error("Challenge verification failed! Error: #{challenge.error['type']}: #{challenge.error['detail']}")
     end
   end
-  
+
   def load_private_key
-    Rails.logger.info("Loading private key...")
+    Rails.logger.info('Loading private key...')
     OpenSSL::PKey::RSA.new(File.read(File.join(Rails.root, CONFIG[:private_key])))
   end
-  
+
   def store_challenge(challenge)
-    Rails.logger.info("Storing challenge information...")
+    Rails.logger.info('Storing challenge information...')
     ch = LetsencryptPlugin::Challenge.first
     if ch.nil?
       ch = LetsencryptPlugin::Challenge.new
-      ch.save!(:response => challenge.file_content)
+      ch.save!(response: challenge.file_content)
     else
-      ch.update(:response => challenge.file_content)
+      ch.update(response: challenge.file_content)
     end
     sleep(2)
-  end 
-  
+  end
+
   def wait_for_status(challenge)
-    Rails.logger.info("Waiting for challenge status...")
+    Rails.logger.info('Waiting for challenge status...')
     counter = 0
     while challenge.verify_status == 'pending' && counter < 10
       sleep(1)
@@ -69,40 +69,38 @@ task :letsencrypt_plugin => :setup_logger do
   end
 
   def create_csr
-    Rails.logger.info("Creating CSR...")
-    Acme::Client::CertificateRequest.new(names: [ CONFIG[:domain] ])
+    Rails.logger.info('Creating CSR...')
+    Acme::Client::CertificateRequest.new(names: [CONFIG[:domain]])
   end
-  
+
   # Save the certificate and key
   def save_certificate(certificate)
-    if !certificate.nil?
-      if !ENV['DYNO'].nil?      
-        Rails.logger.info('You are running this script on Heroku, please copy-paste certificates to your local machine')
-        Rails.logger.info('and then follow https://devcenter.heroku.com/articles/ssl-endpoint guide:')
+    if !ENV['DYNO'].nil?
+      Rails.logger.info('You are running this script on Heroku, please copy-paste certificates to your local machine')
+      Rails.logger.info('and then follow https://devcenter.heroku.com/articles/ssl-endpoint guide:')
 
-        Rails.logger.info("====== #{CONFIG[:domain]}-cert.pem ======")
-        puts certificate.to_pem
+      Rails.logger.info("====== #{CONFIG[:domain]}-cert.pem ======")
+      puts certificate.to_pem
 
-        Rails.logger.info("====== #{CONFIG[:domain]}-key.pem ======")
-        puts certificate.request.private_key.to_pem
-        
-        Rails.logger.info("====== #{CONFIG[:domain]}-chain.pem ======")
-        puts certificate.chain_to_pem
-        
-        Rails.logger.info("====== #{CONFIG[:domain]}-fullchain.pem ======")
-        puts certificate.fullchain_to_pem
-        
-      elsif File.directory?(File.join(Rails.root, CONFIG[:output_cert_dir]))
-        Rails.logger.info("Saving certificates and key...")
-        File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-cert.pem"), certificate.to_pem)
-        File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-key.pem"), certificate.request.private_key.to_pem)
-        File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-chain.pem"), certificate.chain_to_pem)
-        File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-fullchain.pem"), certificate.fullchain_to_pem)
-      else
-        Rails.logger.error("Output directory: '#{File.join(Rails.root, CONFIG[:output_cert_dir])}' does not exist!")
-      end
+      Rails.logger.info("====== #{CONFIG[:domain]}-key.pem ======")
+      puts certificate.request.private_key.to_pem
+
+      Rails.logger.info("====== #{CONFIG[:domain]}-chain.pem ======")
+      puts certificate.chain_to_pem
+
+      Rails.logger.info("====== #{CONFIG[:domain]}-fullchain.pem ======")
+      puts certificate.fullchain_to_pem
+
+    elsif File.directory?(File.join(Rails.root, CONFIG[:output_cert_dir]))
+      Rails.logger.info('Saving certificates and key...')
+      File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-cert.pem"), certificate.to_pem)
+      File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-key.pem"), certificate.request.private_key.to_pem)
+      File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-chain.pem"), certificate.chain_to_pem)
+      File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-fullchain.pem"), certificate.fullchain_to_pem)
+    else
+      Rails.logger.error("Output directory: '#{File.join(Rails.root, CONFIG[:output_cert_dir])}' does not exist!")
     end
-  end
-  
+  end unless certificate.nil?
+
   generate_certificate
 end
