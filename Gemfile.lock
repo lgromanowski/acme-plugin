@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    letsencrypt_plugin (0.0.5)
+    letsencrypt_plugin (0.0.6)
       acme-client (~> 0.2.4)
       rails (~> 4.2.5)
 
@@ -135,4 +135,4 @@ DEPENDENCIES
   sqlite3
 
 BUNDLED WITH
-   1.10.5
+   1.11.2
