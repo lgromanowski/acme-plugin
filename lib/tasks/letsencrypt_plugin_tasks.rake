@@ -77,10 +77,10 @@ task :letsencrypt_plugin => :setup_logger do
   def save_certificate(certificate)
     if !certificate.nil?
       Rails.logger.info("Saving certificates and key...")
-      File.write(File.join(CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-cert.pem"), certificate.to_pem)
-      File.write(File.join(CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-key.pem"), certificate.request.private_key.to_pem)
-      File.write(File.join(CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-chain.pem"), certificate.chain_to_pem)
-      File.write(File.join(CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-fullchain.pem"), certificate.fullchain_to_pem)
+      File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-cert.pem"), certificate.to_pem)
+      File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-key.pem"), certificate.request.private_key.to_pem)
+      File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-chain.pem"), certificate.chain_to_pem)
+      File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-fullchain.pem"), certificate.fullchain_to_pem)
     end
   end
   
