@@ -26,7 +26,7 @@ After that you have to run two following commands to copy letsencrypt_plugin dat
 $ rake letsencrypt_plugin:install:migrations
 ```
 ```bash
-$ rake db:migration RAILS_ENV=production
+$ rake db:migrate
 ```
 
 Next, you have to create configuration (template below):
@@ -72,7 +72,7 @@ $ touch tmp/restart.txt
 ## Usage
 Run `letsencrypt_plugin` rake task:
 ```bash
-$ rake letsencrypt_plugin RAILS_ENV=production
+$ rake letsencrypt_plugin
 ```
 
 If everything was done correctly, then you should see output similar to the one below:
