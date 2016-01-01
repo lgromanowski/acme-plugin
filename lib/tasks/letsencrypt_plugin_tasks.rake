@@ -57,7 +57,9 @@ task :letsencrypt_plugin => :setup_logger do
       ch.update(:response => challenge.file_content)
     end
     sleep(2)
-  end def wait_for_status(challenge)
+  end 
+  
+  def wait_for_status(challenge)
     Rails.logger.info("Waiting for challenge status...")
     counter = 0
     while challenge.verify_status == 'pending' && counter < 10
