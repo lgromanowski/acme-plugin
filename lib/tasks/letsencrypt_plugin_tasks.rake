@@ -57,9 +57,7 @@ task :letsencrypt_plugin => :setup_logger do
       ch.update(:response => challenge.file_content)
     end
     sleep(2)
-  end
-
-  def wait_for_status(challenge)
+  end def wait_for_status(challenge)
     Rails.logger.info("Waiting for challenge status...")
     counter = 0
     while challenge.verify_status == 'pending' && counter < 10
@@ -77,10 +75,19 @@ task :letsencrypt_plugin => :setup_logger do
   def save_certificate(certificate)
     if !certificate.nil?
       Rails.logger.info("Saving certificates and key...")
-      File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-cert.pem"), certificate.to_pem)
-      File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-key.pem"), certificate.request.private_key.to_pem)
-      File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-chain.pem"), certificate.chain_to_pem)
-      File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-fullchain.pem"), certificate.fullchain_to_pem)
+      if !File.directory?(File.join(Rails.root, CONFIG[:output_cert_dir])) && !ENV['DYNO'].nil?      
+        # Running on heroku, output directory may not exist - try to cereate it
+        Dir.mkdir(File.join(Rails.root, CONFIG[:output_cert_dir]))
+      end
+      # Check again
+      if File.directory?(File.join(Rails.root, CONFIG[:output_cert_dir]))
+        File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-cert.pem"), certificate.to_pem)
+        File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-key.pem"), certificate.request.private_key.to_pem)
+        File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-chain.pem"), certificate.chain_to_pem)
+        File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-fullchain.pem"), certificate.fullchain_to_pem)
+      else
+        Rails.logger.error("Output directory: '#{File.join(Rails.root, CONFIG[:output_cert_dir])}' does not exist!")
+      end
     end
   end
   
