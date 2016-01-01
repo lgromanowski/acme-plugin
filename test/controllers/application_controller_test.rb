@@ -6,14 +6,14 @@ module LetsencryptPlugin
       @routes = LetsencryptPlugin::Engine.routes
     end
 
-    test "if challenge request is invalid when is smaller than 128 bits" do
+    test 'if challenge request is invalid when is smaller than 128 bits' do
       get :index, challenge: 'dG9rZW4='
       assert_response :bad_request
       assert_match('Challenge failed - Request has invalid length!', response.body)
     end
 
-    test "if challenge request is invalid if it is larger than 256 bytes" do
-      get :index, challenge: "a" * 257
+    test 'if challenge request is invalid if it is larger than 256 bytes' do
+      get :index, challenge: 'a' * 257
       assert_response :bad_request
       assert_match('Challenge failed - Request has invalid length!', response.body)
     end
