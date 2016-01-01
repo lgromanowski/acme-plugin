@@ -1,4 +1,5 @@
-$:.push File.expand_path('../lib', __FILE__)
+require 'English'
+$LOAD_PATH.push File.expand_path('../lib', __FILE__)
 
 # Maintain your gem's version:
 require 'letsencrypt_plugin/version'
