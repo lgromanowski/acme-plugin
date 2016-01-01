@@ -75,32 +75,33 @@ task letsencrypt_plugin: :setup_logger do
 
   # Save the certificate and key
   def save_certificate(certificate)
-    if !ENV['DYNO'].nil?
-      Rails.logger.info('You are running this script on Heroku, please copy-paste certificates to your local machine')
-      Rails.logger.info('and then follow https://devcenter.heroku.com/articles/ssl-endpoint guide:')
-
-      Rails.logger.info("====== #{CONFIG[:domain]}-cert.pem ======")
-      puts certificate.to_pem
-
-      Rails.logger.info("====== #{CONFIG[:domain]}-key.pem ======")
-      puts certificate.request.private_key.to_pem
-
-      Rails.logger.info("====== #{CONFIG[:domain]}-chain.pem ======")
-      puts certificate.chain_to_pem
-
-      Rails.logger.info("====== #{CONFIG[:domain]}-fullchain.pem ======")
-      puts certificate.fullchain_to_pem
-
-    elsif File.directory?(File.join(Rails.root, CONFIG[:output_cert_dir]))
-      Rails.logger.info('Saving certificates and key...')
-      File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-cert.pem"), certificate.to_pem)
-      File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-key.pem"), certificate.request.private_key.to_pem)
-      File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-chain.pem"), certificate.chain_to_pem)
-      File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-fullchain.pem"), certificate.fullchain_to_pem)
-    else
-      Rails.logger.error("Output directory: '#{File.join(Rails.root, CONFIG[:output_cert_dir])}' does not exist!")
+    if !certificate.nil?
+      if !ENV['DYNO'].nil?
+        Rails.logger.info('You are running this script on Heroku, please copy-paste certificates to your local machine')
+        Rails.logger.info('and then follow https://devcenter.heroku.com/articles/ssl-endpoint guide:')
+  
+        Rails.logger.info("====== #{CONFIG[:domain]}-cert.pem ======")
+        puts certificate.to_pem
+  
+        Rails.logger.info("====== #{CONFIG[:domain]}-key.pem ======")
+        puts certificate.request.private_key.to_pem
+  
+        Rails.logger.info("====== #{CONFIG[:domain]}-chain.pem ======")
+        puts certificate.chain_to_pem
+  
+        Rails.logger.info("====== #{CONFIG[:domain]}-fullchain.pem ======")
+        puts certificate.fullchain_to_pem
+  
+      elsif File.directory?(File.join(Rails.root, CONFIG[:output_cert_dir]))
+        Rails.logger.info('Saving certificates and key...')
+        File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-cert.pem"), certificate.to_pem)
+        File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-key.pem"), certificate.request.private_key.to_pem)
+        File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-chain.pem"), certificate.chain_to_pem)
+        File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-fullchain.pem"), certificate.fullchain_to_pem)
+      else
+        Rails.logger.error("Output directory: '#{File.join(Rails.root, CONFIG[:output_cert_dir])}' does not exist!")
+      end
     end
-  end unless certificate.nil?
-
+  end
   generate_certificate
 end
