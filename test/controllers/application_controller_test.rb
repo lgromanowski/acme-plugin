@@ -17,5 +17,10 @@ module LetsencryptPlugin
       assert_response :bad_request
       assert_match('Challenge failed - Request has invalid length!', response.body)
     end
+
+    test 'if challenge is valid' do
+      get :index, challenge: 'rpzxDjD-8xrr5I1G_JBTEToVMYgjNjfSs-XZ62tRtgs'
+      assert_response :ok
+    end
   end
 end
