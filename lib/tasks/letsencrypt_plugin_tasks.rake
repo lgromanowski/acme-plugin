@@ -78,7 +78,7 @@ task :letsencrypt_plugin => :setup_logger do
 
   def create_csr
     Rails.logger.info("Creating CSR...")
-    Acme::CertificateRequest.new(names: [ CONFIG[:domain] ])
+    Acme::Client::CertificateRequest.new(names: [ CONFIG[:domain] ])
   end
   
   # Save the certificate and key
