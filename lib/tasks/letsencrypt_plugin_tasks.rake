@@ -59,8 +59,8 @@ task :letsencrypt_plugin => :setup_logger do
       end
     else # store in filesystem
       full_challenge_dir = File.join(Rails.root, CONFIG[:challenge_dir_name]);
-      if (!File.Directory?(full_challenge_dir))
-        File.MkDir(full_challenge_dir)
+      if (!File.directory?(full_challenge_dir))
+        Dir.mkdir(full_challenge_dir)
       end
       File.open(File.join(full_challenge_dir, 'challenge'), 'w') { |file| file.write(challenge) }
     end
