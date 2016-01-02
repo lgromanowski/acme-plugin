@@ -29,7 +29,7 @@ task :letsencrypt_plugin => :setup_logger do
 
     challenge.request_verification # => true
     
-    wait_for_status(challenge)
+    wait_for_status(challenge)  
     
     if challenge.verify_status == 'valid'
       # We can now request a certificate
@@ -62,7 +62,7 @@ task :letsencrypt_plugin => :setup_logger do
       if (!File.directory?(full_challenge_dir))
         Dir.mkdir(full_challenge_dir)
       end
-      File.open(File.join(full_challenge_dir, 'challenge'), 'w') { |file| file.write(challenge) }
+      File.open(File.join(full_challenge_dir, 'challenge'), 'w') { |file| file.write(challenge.file_content) }
     end
     sleep(2)
   end
