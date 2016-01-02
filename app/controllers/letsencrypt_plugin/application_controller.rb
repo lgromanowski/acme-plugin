@@ -17,7 +17,7 @@ module LetsencryptPlugin
 
       def get_challenge_response
         if (CONFIG[:challenge_dir_name])
-          full_challenge_dir = File.join(Rails.root, CONFIG[:challenge_dir_name]);
+          full_challenge_dir = File.join(File.join(Rails.root, CONFIG[:challenge_dir_name], 'challenge');
           @response = { :response => IO.read(full_challenge_dir) }
         else
           @response = Challenge.first
