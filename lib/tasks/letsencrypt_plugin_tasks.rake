@@ -49,12 +49,20 @@ task :letsencrypt_plugin => :setup_logger do
   
   def store_challenge(challenge)
     Rails.logger.info("Storing challenge information...")
-    ch = LetsencryptPlugin::Challenge.first
-    if ch.nil?
-      ch = LetsencryptPlugin::Challenge.new
-      ch.save!(:response => challenge.file_content)
-    else
-      ch.update(:response => challenge.file_content)
+    if (CONFIG[:challenge_dir_name].empty?) # store in DB
+      ch = LetsencryptPlugin::Challenge.first
+      if ch.nil?
+        ch = LetsencryptPlugin::Challenge.new
+        ch.save!(:response => challenge.file_content)
+      else
+        ch.update(:response => challenge.file_content)
+      end
+    else # store in filesystem
+      full_challenge_dir = File.join(Rails.root, CONFIG[:challenge_dir_name]);
+      if (!File.Directory?(full_challenge_dir))
+        File.MkDir(full_challenge_dir)
+      end
+      File.open(File.join(full_challenge_dir, 'challenge'), 'w') { |file| file.write(challenge) }
     end
     sleep(2)
   end

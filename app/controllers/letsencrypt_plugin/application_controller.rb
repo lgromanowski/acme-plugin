@@ -16,7 +16,12 @@ module LetsencryptPlugin
       end
 
       def get_challenge_response
-        @response = Challenge.first
+        if (CONFIG[:challenge_dir_name])
+          full_challenge_dir = File.join(Rails.root, CONFIG[:challenge_dir_name]);
+          @response = { :response => IO.read(full_challenge_dir) }
+        else
+          @response = Challenge.first
+        end
         challenge_failed('Challenge failed - Can not get response from database!') if @response.nil?
       end
 
