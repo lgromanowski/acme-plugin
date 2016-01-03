@@ -49,12 +49,20 @@ task letsencrypt_plugin: :setup_logger do
 
   def store_challenge(challenge)
     Rails.logger.info('Storing challenge information...')
-    ch = LetsencryptPlugin::Challenge.first
-    if ch.nil?
-      ch = LetsencryptPlugin::Challenge.new
-      ch.save!(response: challenge.file_content)
-    else
-      ch.update(response: challenge.file_content)
+    if CONFIG[:challenge_dir_name].empty? # store in DB
+      ch = LetsencryptPlugin::Challenge.first
+      if ch.nil?
+        ch = LetsencryptPlugin::Challenge.new
+        ch.save!(response: challenge.file_content)
+      else
+        ch.update(response: challenge.file_content)
+      end
+    else # store in filesystem
+      full_challenge_dir = File.join(Rails.root, CONFIG[:challenge_dir_name])
+      if !File.directory?(full_challenge_dir)
+        Dir.mkdir(full_challenge_dir)
+      end
+      File.open(File.join(full_challenge_dir, 'challenge'), 'w') { |file| file.write(challenge.file_content) }
     end
     sleep(2)
   end
@@ -79,19 +87,18 @@ task letsencrypt_plugin: :setup_logger do
       if !ENV['DYNO'].nil?
         Rails.logger.info('You are running this script on Heroku, please copy-paste certificates to your local machine')
         Rails.logger.info('and then follow https://devcenter.heroku.com/articles/ssl-endpoint guide:')
-  
+
         Rails.logger.info("====== #{CONFIG[:domain]}-cert.pem ======")
         puts certificate.to_pem
-  
+
         Rails.logger.info("====== #{CONFIG[:domain]}-key.pem ======")
         puts certificate.request.private_key.to_pem
-  
+
         Rails.logger.info("====== #{CONFIG[:domain]}-chain.pem ======")
         puts certificate.chain_to_pem
-  
+
         Rails.logger.info("====== #{CONFIG[:domain]}-fullchain.pem ======")
         puts certificate.fullchain_to_pem
-  
       elsif File.directory?(File.join(Rails.root, CONFIG[:output_cert_dir]))
         Rails.logger.info('Saving certificates and key...')
         File.write(File.join(Rails.root, CONFIG[:output_cert_dir], "#{CONFIG[:domain]}-cert.pem"), certificate.to_pem)
