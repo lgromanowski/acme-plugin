@@ -10,6 +10,7 @@ end
 
 desc "Generates SSL certificate using Let's Encrypt service"
 task letsencrypt_plugin: :setup_logger do
-  cert_generator = LetsencryptPlugin::CertGenerator.new
-  cert_generator.generate_certificate
+  # cert_generator =
+  LetsencryptPlugin::CertGenerator.new
+  # cert_generator.generate_certificate
 end

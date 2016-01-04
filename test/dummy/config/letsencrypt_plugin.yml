@@ -1,13 +1,13 @@
 default: &default
-  endpoint: "https://acme-v01.api.letsencrypt.org/"
-  email: "your@email.address"
-  domain: "example.com"
-  private_key: "path to the private user key" # in Rails.root
-  output_cert_dir: "path where generated certificate should be stored" # in Rails.root
-  
+  endpoint: 'https://acme-staging.api.letsencrypt.org'  # test server
+  email: 'your@email.address'
+  domain: 'example.com'
+  private_key: 'key/test-keyfile.pem'                   # in Rails.root
+  output_cert_dir: 'certificates'                       # in Rails.root
+
 production:
   <<: *default
-  
+
 development:
   <<: *default
 
