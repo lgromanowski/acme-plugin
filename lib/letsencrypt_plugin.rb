@@ -1,4 +1,7 @@
 require 'letsencrypt_plugin/engine'
+require 'letsencrypt_plugin/output'
+require 'letsencrypt_plugin/file_output'
+require 'letsencrypt_plugin/heroku_output'
 require 'openssl'
 require 'acme/client'
 
@@ -69,70 +72,30 @@ module LetsencryptPlugin
       end
     end
 
-    def create_csr
-      Rails.logger.info('Creating CSR...')
-      Acme::Client::CertificateRequest.new(names: [CONFIG[:domain]])
-    end
-
-    def display_certificates(certificate)
-      Rails.logger.info("====== #{CONFIG[:domain]}-cert.pem ======")
-      puts certificate.to_pem
-
-      Rails.logger.info("====== #{CONFIG[:domain]}-key.pem ======")
-      puts certificate.request.private_key.to_pem
-
-      Rails.logger.info("====== #{CONFIG[:domain]}-chain.pem ======")
-      puts certificate.chain_to_pem
-
-      Rails.logger.info("====== #{CONFIG[:domain]}-fullchain.pem ======")
-      puts certificate.fullchain_to_pem
-    end
-
-    def save_on_heroku(certificate)
-      Rails.logger.info('You are running this script on Heroku, please copy-paste certificates to your local machine')
-      Rails.logger.info('and then follow https://devcenter.heroku.com/articles/ssl-endpoint guide:')
-
-      display_certificates(certificate)
-    end
-
-    def save_on_filesystem(certificate, output_dir)
-      Rails.logger.info('Saving certificates and key...')
-      File.write(File.join(output_dir, "#{CONFIG[:domain]}-cert.pem"), certificate.to_pem)
-      File.write(File.join(output_dir, "#{CONFIG[:domain]}-key.pem"), certificate.request.private_key.to_pem)
-      File.write(File.join(output_dir, "#{CONFIG[:domain]}-chain.pem"), certificate.chain_to_pem)
-      File.write(File.join(output_dir, "#{CONFIG[:domain]}-fullchain.pem"), certificate.fullchain_to_pem)
-    end
-
     # Save the certificate and key
     def save_certificate(certificate)
-      unless certificate.nil?
-        return save_on_heroku(certificate) unless ENV['DYNO'].nil?
-
+      begin
+        return HerokuOutput.new(certificate).output unless ENV['DYNO'].nil?
         output_dir = File.join(Rails.root, CONFIG[:output_cert_dir])
-
-        if File.directory?(output_dir)
-          save_on_filesystem(certificate, output_dir)
-        else
-          Rails.logger.error("Output directory: '#{output_dir}' does not exist!")
-        end
-      end
+        return FileOutput.new(certificate, output_dir).output if File.directory?(output_dir)
+        Rails.logger.error("Output directory: '#{output_dir}' does not exist!")
+      end unless certificate.nil?
     end
 
     def generate_certificate
       register
       authorize
-
       handle_challenge
 
-      if challenge_verification
-        # We can now request a certificate
-        certificate = client.new_certificate(create_csr)
-        save_certificate(certificate)
+      return Rails.logger.error('Challenge verification failed! ' \
+        "Error: #{challenge.error['type']}: #{challenge.error['detail']}") unless challenge_verification
 
-        Rails.logger.info('Certificate has been generated.')
-      else
-        Rails.logger.error("Challenge verification failed! Error: #{challenge.error['type']}: #{challenge.error['detail']}")
-      end
+      # We can now request a certificate
+      Rails.logger.info('Creating CSR...')
+      certificate = client.new_certificate(Acme::Client::CertificateRequest.new(names: [CONFIG[:domain]]))
+      save_certificate(certificate)
+
+      Rails.logger.info('Certificate has been generated.')
     end
   end
 end
