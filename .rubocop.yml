@@ -1,5 +1,5 @@
-Rails:
-  Enabled: true
+Rails/Output:
+  Enabled: false
 Metrics/LineLength:
   Max: 140
 Documentation:
