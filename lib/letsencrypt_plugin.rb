@@ -1,7 +1,8 @@
 require 'letsencrypt_plugin/engine'
-require 'letsencrypt_plugin/output'
 require 'letsencrypt_plugin/file_output'
 require 'letsencrypt_plugin/heroku_output'
+require 'letsencrypt_plugin/file_store'
+require 'letsencrypt_plugin/database_store'
 require 'openssl'
 require 'acme/client'
 
@@ -9,8 +10,13 @@ module LetsencryptPlugin
   class CertGenerator
     def initialize
       Rails.logger.info('Loading private key...')
-      @client ||= Acme::Client.new(private_key: OpenSSL::PKey::RSA.new(File.read(File.join(Rails.root, CONFIG[:private_key]))),
-                                   endpoint: CONFIG[:endpoint])
+      private_key = File.join(Rails.root, CONFIG[:private_key])
+      begin
+        @client ||= Acme::Client.new(private_key: OpenSSL::PKey::RSA.new(File.read(private_key)), endpoint: CONFIG[:endpoint])
+      rescue => e
+        Rails.logger.error("Failed to load private key: '#{private_key}'")
+        Rails.logger.error("#{e}")
+      end
     end
 
     def register
@@ -29,38 +35,22 @@ module LetsencryptPlugin
       @authorization = @client.authorize(domain: CONFIG[:domain])
     end
 
+    def store_challenge(challenge)
+      if CONFIG[:challenge_dir_name].empty?
+        DatabaseStore.new(challenge.file_content).store
+      else
+        FileStore.new(challenge.file_content).store
+      end
+      sleep(2)
+    end
+
     def handle_challenge
       @challenge = @authorization.http01
       store_challenge(challenge)
     end
 
-    def challenge_verification
-      @challenge.request_verification # => true
-      wait_for_status(@challenge)
-
-      @challenge.verify_status == 'valid'
-    end
-
-    def store_challenge_in_filesystem(file_content)
-      full_challenge_dir = File.join(Rails.root, CONFIG[:challenge_dir_name])
-      Dir.mkdir(full_challenge_dir) unless File.directory?(full_challenge_dir)
-      File.open(File.join(full_challenge_dir, 'challenge'), 'w') { |file| file.write(file_content) }
-    end
-
-    def store_challenge_in_db(file_content)
-      ch = LetsencryptPlugin::Challenge.first
-      ch = LetsencryptPlugin::Challenge.new if ch.nil?
-      ch.update(response: file_content)
-    end
-
-    def store_challenge(challenge)
-      Rails.logger.info('Storing challenge information...')
-      if CONFIG[:challenge_dir_name].empty? # store in DB
-        store_challenge_in_db(challenge.file_content)
-      else # store in filesystem
-        store_challenge_in_filesystem(challenge.file_content)
-      end
-      sleep(2)
+    def request_challenge_verification
+      @challenge.request_verification
     end
 
     def wait_for_status(challenge)
@@ -70,6 +60,11 @@ module LetsencryptPlugin
         sleep(1)
         counter += 1
       end
+    end
+
+    def valid_verification_status
+      wait_for_status(@challenge)
+      @challenge.verify_status == 'valid'
     end
 
     # Save the certificate and key
@@ -86,14 +81,14 @@ module LetsencryptPlugin
       register
       authorize
       handle_challenge
+      request_challenge_verification
 
       return Rails.logger.error('Challenge verification failed! ' \
-        "Error: #{challenge.error['type']}: #{challenge.error['detail']}") unless challenge_verification
+        "Error: #{challenge.error['type']}: #{challenge.error['detail']}") unless valid_verification_status
 
       # We can now request a certificate
       Rails.logger.info('Creating CSR...')
-      certificate = client.new_certificate(Acme::Client::CertificateRequest.new(names: [CONFIG[:domain]]))
-      save_certificate(certificate)
+      save_certificate(client.new_certificate(Acme::Client::CertificateRequest.new(names: [CONFIG[:domain]])))
 
       Rails.logger.info('Certificate has been generated.')
     end

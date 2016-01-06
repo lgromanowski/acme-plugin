@@ -1,5 +1,5 @@
 module LetsencryptPlugin
-  class Output
+  class CertificateOutput
     def initalize(cert)
       @certificate = cert
     end

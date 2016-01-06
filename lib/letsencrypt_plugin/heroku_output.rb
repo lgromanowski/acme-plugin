@@ -1,7 +1,7 @@
-module LetsencryptPlugin
-  class HerokuOutput < Output
-    protected
+require 'letsencrypt_plugin/certificate_output'
 
+module LetsencryptPlugin
+  class HerokuOutput < CertificateOutput
     def output_cert(cert_type, cert_content)
       Rails.logger.info("====== #{CONFIG[:domain]}-#{cert_type} ======")
       puts cert_content
