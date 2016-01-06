@@ -91,7 +91,7 @@ module LetsencryptPlugin
       begin
         # We can now request a certificate
         Rails.logger.info('Creating CSR...')
-        save_certificate(client.new_certificate(Acme::Client::CertificateRequest.new(names: [CONFIG[:domain]])))
+        save_certificate(@client.new_certificate(Acme::Client::CertificateRequest.new(names: [CONFIG[:domain]])))
 
         Rails.logger.info('Certificate has been generated.')
       end if valid_verification_status
