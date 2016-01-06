@@ -13,9 +13,10 @@ module LetsencryptPlugin
       private_key = File.join(Rails.root, CONFIG[:private_key])
       begin
         @client ||= Acme::Client.new(private_key: OpenSSL::PKey::RSA.new(File.read(private_key)), endpoint: CONFIG[:endpoint])
-      rescue => e
+      rescue Exception => e
         Rails.logger.error("Failed to load private key: '#{private_key}'")
         Rails.logger.error("#{e}")
+        raise e
       end
     end
 
@@ -36,7 +37,7 @@ module LetsencryptPlugin
     end
 
     def store_challenge(challenge)
-      if CONFIG[:challenge_dir_name].empty?
+      if CONFIG[:challenge_dir_name].nil? || CONFIG[:challenge_dir_name].empty?
         DatabaseStore.new(challenge.file_content).store
       else
         FileStore.new(challenge.file_content).store
@@ -46,7 +47,7 @@ module LetsencryptPlugin
 
     def handle_challenge
       @challenge = @authorization.http01
-      store_challenge(challenge)
+      store_challenge(@challenge)
     end
 
     def request_challenge_verification
@@ -64,7 +65,12 @@ module LetsencryptPlugin
 
     def valid_verification_status
       wait_for_status(@challenge)
-      @challenge.verify_status == 'valid'
+      begin
+        Rails.logger.error('Challenge verification failed! ' \
+          "Error: #{@challenge.error['type']}: #{@challenge.error['detail']}")
+        return false
+      end unless @challenge.verify_status == 'valid'
+      true
     end
 
     # Save the certificate and key
@@ -82,15 +88,13 @@ module LetsencryptPlugin
       authorize
       handle_challenge
       request_challenge_verification
+      begin
+        # We can now request a certificate
+        Rails.logger.info('Creating CSR...')
+        save_certificate(client.new_certificate(Acme::Client::CertificateRequest.new(names: [CONFIG[:domain]])))
 
-      return Rails.logger.error('Challenge verification failed! ' \
-        "Error: #{challenge.error['type']}: #{challenge.error['detail']}") unless valid_verification_status
-
-      # We can now request a certificate
-      Rails.logger.info('Creating CSR...')
-      save_certificate(client.new_certificate(Acme::Client::CertificateRequest.new(names: [CONFIG[:domain]])))
-
-      Rails.logger.info('Certificate has been generated.')
+        Rails.logger.info('Certificate has been generated.')
+      end if valid_verification_status
     end
   end
 end
