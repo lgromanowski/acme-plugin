@@ -47,7 +47,7 @@ development:
 test:
   <<: *default
 ```
-and put it into `Rails.root/config/letsencrypt_plugin.yml` file. If you don't have previously generated private key you can create it by running following command:
+and put it into `Rails.root/config/letsencrypt_plugin.yml` file. If you don't have previously generated private key you can create it by running following command (**Note:** Please use key size between 2048 - 4096 bits, because [Let's Encrypt server doesn't allow keys larger than 4096 bits](https://community.letsencrypt.org/t/private-key-size-4096-strange-error-message/8396/2))
 ```bash
 $ openssl genrsa 4096 > key/keyfile.pem
 ```
