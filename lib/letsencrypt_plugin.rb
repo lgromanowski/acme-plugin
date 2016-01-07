@@ -5,19 +5,24 @@ require 'letsencrypt_plugin/file_store'
 require 'letsencrypt_plugin/database_store'
 require 'openssl'
 require 'acme/client'
+require 'pp'
 
 module LetsencryptPlugin
   class CertGenerator
     def initialize
+      @client ||= Acme::Client.new(private_key: load_private_key, endpoint: CONFIG[:endpoint])
+    rescue Exception => e
+      Rails.logger.error("#{e}")
+      raise e
+    end
+
+    def load_private_key
       Rails.logger.info('Loading private key...')
-      private_key = File.join(Rails.root, CONFIG[:private_key])
-      begin
-        @client ||= Acme::Client.new(private_key: OpenSSL::PKey::RSA.new(File.read(private_key)), endpoint: CONFIG[:endpoint])
-      rescue Exception => e
-        Rails.logger.error("Failed to load private key: '#{private_key}'")
-        Rails.logger.error("#{e}")
-        raise e
-      end
+      private_key_path = File.join(Rails.root, CONFIG[:private_key])
+      fail "Can not open private key: #{private_key_path}" unless File.exist?(private_key_path)
+      private_key = OpenSSL::PKey::RSA.new(File.read(private_key_path))
+      fail "Invalid key size: #{private_key.n.num_bits}." \
+        ' Required size is between 2048 - 4096 bits' if private_key.n.num_bits < 2048 || private_key.n.num_bits > 4096
     end
 
     def register
