@@ -9,26 +9,52 @@ require 'pp'
 
 module LetsencryptPlugin
   class CertGenerator
-    def initialize
-      @client ||= Acme::Client.new(private_key: load_private_key, endpoint: CONFIG[:endpoint])
+    attr_reader :options
+
+    def initialize(options = {})
+      @options = options
+      @options.freeze
+
+      @client ||= Acme::Client.new(private_key: load_private_key, endpoint: @options[:endpoint])
     rescue Exception => e
       Rails.logger.error("#{e}")
       raise e
     end
 
+    def generate_certificate
+      register
+      authorize
+      handle_challenge
+      request_challenge_verification
+      begin
+        # We can now request a certificate
+        Rails.logger.info('Creating CSR...')
+        save_certificate(@client.new_certificate(Acme::Client::CertificateRequest.new(names: [@options[:domain]])))
+
+        Rails.logger.info('Certificate has been generated.')
+      end if valid_verification_status
+    end
+
+    private
+
+    def valid_key_size?(key)
+      key.n.num_bits >= 2048 && key.n.num_bits <= 4096
+    end
+
     def load_private_key
       Rails.logger.info('Loading private key...')
-      private_key_path = File.join(Rails.root, CONFIG[:private_key])
-      fail "Can not open private key: #{private_key_path}" unless File.exist?(private_key_path)
+      fail 'Private key is not set, please check your config/letsencrypt_plugin.yml file!' if @options[:private_key].nil? || @options[:private_key].empty?
+      private_key_path = File.join(Rails.root, @options[:private_key])
+      fail "Can not open private key: #{private_key_path}" unless File.exist?(private_key_path) && !File.directory?(private_key_path)
       private_key = OpenSSL::PKey::RSA.new(File.read(private_key_path))
       fail "Invalid key size: #{private_key.n.num_bits}." \
-        ' Required size is between 2048 - 4096 bits' if private_key.n.num_bits < 2048 || private_key.n.num_bits > 4096
+        ' Required size is between 2048 - 4096 bits' unless valid_key_size?(private_key)
     end
 
     def register
       Rails.logger.info('Trying to register at Let\'s Encrypt service...')
       begin
-        registration = @client.register(contact: "mailto:#{CONFIG[:email]}")
+        registration = @client.register(contact: "mailto:#{@options[:email]}")
         registration.agree_terms
         Rails.logger.info('Registration succeed.')
       rescue
@@ -38,14 +64,14 @@ module LetsencryptPlugin
 
     def authorize
       Rails.logger.info('Sending authorization request...')
-      @authorization = @client.authorize(domain: CONFIG[:domain])
+      @authorization = @client.authorize(domain: @options[:domain])
     end
 
     def store_challenge(challenge)
-      if CONFIG[:challenge_dir_name].nil? || CONFIG[:challenge_dir_name].empty?
+      if @options[:challenge_dir_name].nil? || @options[:challenge_dir_name].empty?
         DatabaseStore.new(challenge.file_content).store
       else
-        FileStore.new(challenge.file_content).store
+        FileStore.new(challenge.file_content, @options[:challenge_dir_name]).store
       end
       sleep(2)
     end
@@ -81,25 +107,11 @@ module LetsencryptPlugin
     # Save the certificate and key
     def save_certificate(certificate)
       begin
-        return HerokuOutput.new(certificate).output unless ENV['DYNO'].nil?
-        output_dir = File.join(Rails.root, CONFIG[:output_cert_dir])
-        return FileOutput.new(certificate, output_dir).output if File.directory?(output_dir)
+        return HerokuOutput.new(@options[:domain], certificate).output unless ENV['DYNO'].nil?
+        output_dir = File.join(Rails.root, @options[:output_cert_dir])
+        return FileOutput.new(@options[:domain], certificate, output_dir).output if File.directory?(output_dir)
         Rails.logger.error("Output directory: '#{output_dir}' does not exist!")
       end unless certificate.nil?
-    end
-
-    def generate_certificate
-      register
-      authorize
-      handle_challenge
-      request_challenge_verification
-      begin
-        # We can now request a certificate
-        Rails.logger.info('Creating CSR...')
-        save_certificate(@client.new_certificate(Acme::Client::CertificateRequest.new(names: [CONFIG[:domain]])))
-
-        Rails.logger.info('Certificate has been generated.')
-      end if valid_verification_status
     end
   end
 end
