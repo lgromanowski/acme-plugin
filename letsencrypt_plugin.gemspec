@@ -25,7 +25,13 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails', '~> 4.2.5'
   s.add_dependency 'acme-client', '~> 0.2.4'
   s.add_development_dependency 'minitest'
+  s.add_development_dependency 'minitest-rails'
+  s.add_development_dependency 'minitest-reporters'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'codeclimate-test-reporter'
   s.add_development_dependency 'rubocop'
+  s.add_development_dependency 'webmock'
+  s.add_development_dependency 'minitest-vcr'
+  s.add_development_dependency 'mocha'
+  s.add_development_dependency 'simplecov'
 end

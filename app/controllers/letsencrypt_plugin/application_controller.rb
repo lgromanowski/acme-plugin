@@ -17,11 +17,7 @@ module LetsencryptPlugin
     end
 
     def challenge_response
-      if CONFIG[:challenge_dir_name]
-        @response = Challenge.new
-      else
-        @response = Challenge.first
-      end
+      @response = CONFIG[:challenge_dir_name] ? Challenge.new : Challenge.first
       challenge_failed('Challenge failed - Can not get response from database!') if @response.nil?
     end
 
