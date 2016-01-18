@@ -28,7 +28,7 @@ if ActiveSupport::TestCase.respond_to?(:fixture_path=)
   ActiveSupport::TestCase.fixtures :all
 end
 
-require 'webmock/minitest'
+# require 'webmock/minitest'
 # MinitestVcr::Spec.configure!
 
 # require 'vcr'
