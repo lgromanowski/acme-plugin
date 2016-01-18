@@ -33,9 +33,9 @@ module LetsencryptPlugin
 
     def create_client
       @client ||= Acme::Client.new(private_key: load_private_key, endpoint: @options[:endpoint])
-      rescue Exception => e
-        Rails.logger.error("#{e}")
-        raise e
+    rescue Exception => e
+      Rails.logger.error(e.to_s)
+      raise e
     end
 
     def valid_key_size?(key)

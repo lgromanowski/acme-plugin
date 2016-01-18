@@ -1,5 +1,5 @@
 default: &default
-  endpoint: 'https://acme-staging.api.letsencrypt.org'  # test server
+  endpoint: 'https://acme-staging.api.letsencrypt.org/directory'  # test server
   email: 'your@email.address'
   domain: 'example.com'
   private_key: 'key/test-keyfile.pem'                   # in Rails.root
