@@ -14,14 +14,10 @@ module LetsencryptPlugin
     def initialize(options = {})
       @options = options
       @options.freeze
-
-      @client ||= Acme::Client.new(private_key: load_private_key, endpoint: @options[:endpoint])
-    rescue Exception => e
-      Rails.logger.error("#{e}")
-      raise e
     end
 
     def generate_certificate
+      create_client
       register
       authorize
       handle_challenge
@@ -35,20 +31,35 @@ module LetsencryptPlugin
       end if valid_verification_status
     end
 
-    private
+    def create_client
+      @client ||= Acme::Client.new(private_key: load_private_key, endpoint: @options[:endpoint])
+      rescue Exception => e
+        Rails.logger.error("#{e}")
+        raise e
+    end
 
     def valid_key_size?(key)
       key.n.num_bits >= 2048 && key.n.num_bits <= 4096
     end
 
+    def privkey_path
+      fail 'Private key is not set, please check your '\
+        'config/letsencrypt_plugin.yml file!' if @options[:private_key].nil? || @options[:private_key].empty?
+      File.join(Rails.root, @options[:private_key])
+    end
+
+    def open_priv_key
+      private_key_path = privkey_path
+      fail "Can not open private key: #{private_key_path}" unless File.exist?(private_key_path) && !File.directory?(private_key_path)
+      OpenSSL::PKey::RSA.new(File.read(private_key_path))
+    end
+
     def load_private_key
       Rails.logger.info('Loading private key...')
-      fail 'Private key is not set, please check your config/letsencrypt_plugin.yml file!' if @options[:private_key].nil? || @options[:private_key].empty?
-      private_key_path = File.join(Rails.root, @options[:private_key])
-      fail "Can not open private key: #{private_key_path}" unless File.exist?(private_key_path) && !File.directory?(private_key_path)
-      private_key = OpenSSL::PKey::RSA.new(File.read(private_key_path))
+      private_key = open_priv_key
       fail "Invalid key size: #{private_key.n.num_bits}." \
         ' Required size is between 2048 - 4096 bits' unless valid_key_size?(private_key)
+      private_key
     end
 
     def register
