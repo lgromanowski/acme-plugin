@@ -33,4 +33,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'webmock'
   s.add_development_dependency 'minitest-vcr'
   s.add_development_dependency 'mocha'
+  s.add_development_dependency 'simplecov'
 end

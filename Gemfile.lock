@@ -176,6 +176,7 @@ DEPENDENCIES
   minitest-vcr
   mocha
   rubocop
+  simplecov
   sqlite3
   webmock
 
