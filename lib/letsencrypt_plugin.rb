@@ -32,12 +32,11 @@ module LetsencryptPlugin
       register
 
       domains = @options[:domain].split(' ')
-      if authorize_and_handle_challenge(domains)
-        # We can now request a certificate
-        Rails.logger.info('Creating CSR...')
-        save_certificate(@client.new_certificate(Acme::Client::CertificateRequest.new(names: domains)))
-        Rails.logger.info('Certificate has been generated.')
-      end
+      return unless authorize_and_handle_challenge(domains)
+      # We can now request a certificate
+      Rails.logger.info('Creating CSR...')
+      save_certificate(@client.new_certificate(Acme::Client::CertificateRequest.new(names: domains)))
+      Rails.logger.info('Certificate has been generated.')
     end
 
     def create_client
