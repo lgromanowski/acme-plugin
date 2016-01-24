@@ -14,9 +14,7 @@ Gem::Specification.new do |s|
   s.summary     = 'Let\'s encrypt plugin for Ruby on Rails applications'
   s.description = 'letsencrypt-plugin is a Ruby on Rails helper for Let\'s Encrypt service ' \
                   'for retrieving SSL certificates (without using sudo, like original letsencrypt ' \
-                  'client does). It uses acme-client gem for communication with Let\'s Encrypt server. ' \
-                  '** This gem requires database for storing challenge response ' \
-                  '- it could be any DB supported by Ruby on Rails **'
+                  'client does). It uses acme-client gem for communication with Let\'s Encrypt server. '
   s.license     = 'MIT'
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.rdoc']

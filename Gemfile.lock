@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    letsencrypt_plugin (0.0.6)
+    letsencrypt_plugin (0.0.7)
       acme-client (~> 0.2.4)
       rails (~> 4.2.5)
 
@@ -100,7 +100,7 @@ GEM
     multipart-post (2.0.0)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
-    parser (2.3.0.1)
+    parser (2.3.0.2)
       ast (~> 2.2)
     powerpack (0.1.1)
     rack (1.6.4)
@@ -130,7 +130,7 @@ GEM
       activesupport (= 4.2.5)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rainbow (2.0.0)
+    rainbow (2.1.0)
     rake (10.5.0)
     rubocop (0.36.0)
       parser (>= 2.3.0.0, < 3.0)
