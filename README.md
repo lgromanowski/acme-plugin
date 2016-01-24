@@ -3,71 +3,12 @@
 
 `letsencrypt-plugin` is a Ruby on Rails helper for [Let's Encrypt](https://letsencrypt.org/) service for retrieving SSL certificates (without using sudo, like original letsencrypt client does). It uses [acme-client](https://github.com/unixcharles/acme-client) gem for communication with Let's Encrypt server.
 
-**Important note:** As of version 0.0.3 of this gem dependency to SQLite has been removed (it can be used on [Heroku](https://www.heroku.com/) - certificates will be displayed on console, after that please follow [SSL-Endpoint](https://devcenter.heroku.com/articles/ssl-endpoint) guide), but it still need database to store challenge response, so you have to add some database gem to your application (ie. pg, mysql or sqlite)
+**Important note:** As of version 0.0.3 of this gem dependency to SQLite has been removed (it can be used on [Heroku](https://www.heroku.com/) - certificates will be displayed on console, after that please follow [SSL-Endpoint](https://devcenter.heroku.com/articles/ssl-endpoint) guide).
  
 
 ## Installation
 
-Add below line to your application's Gemfile:
-```ruby
-gem 'letsencrypt_plugin'
-```
-And then execute:
-```bash
-$ bundle install
-```
-Or install it yourself as:
-```bash
-$ gem install letsencrypt_plugin
-```
-
-After that you have to run two following commands to copy letsencrypt_plugin database migration to your application and create `letsencrypt_plugin_challenges` table: 
-```bash
-$ rake letsencrypt_plugin:install:migrations
-```
-```bash
-$ rake db:migrate
-```
-
-Next, you have to create configuration (template below):
-```yaml
-default: &default
-  endpoint: "https://acme-v01.api.letsencrypt.org/"
-  email: "your@email.address"
-  domain: "example.com"
-  private_key: "key/keyfile.pem"                            # in Rails.root
-  output_cert_dir: "certificates"                           # in Rails.root
-  
-production:
-  <<: *default
-  
-development:
-  <<: *default
-
-test:
-  <<: *default
-```
-and put it into `Rails.root/config/letsencrypt_plugin.yml` file. If you don't have previously generated private key you can create it by running following command (**Note:** Please use key size between 2048 - 4096 bits, because [Let's Encrypt server doesn't allow keys larger than 4096 bits](https://community.letsencrypt.org/t/private-key-size-4096-strange-error-message/8396/2))
-```bash
-$ openssl genrsa 4096 > key/keyfile.pem
-```
-`output_cert_dir` must exist - it wont be created automaticaly (when running on Heroku output directory will be ignored - certificates will be displayed on console instead of saving on disk).
-
-Next, you have to mount `letsencrypt_plugin` engine in routes.rb:
-
-```ruby
-Rails.application.routes.draw do
-  mount LetsencryptPlugin::Engine, at: "/"  # It must be at root level
-
-  # Other routes...
-
-end
-```
-
-and restart your application:
-```bash
-$ touch tmp/restart.txt
-```
+For detailed installation guide please visit [Installation-guide](https://github.com/lgromanowski/letsencrypt-plugin/wiki/Installation-guide) wiki page.
 
 ## Usage
 Run `letsencrypt_plugin` rake task:
