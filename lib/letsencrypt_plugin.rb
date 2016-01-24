@@ -15,18 +15,29 @@ module LetsencryptPlugin
       @options.freeze
     end
 
+    def authorize_and_handle_challenge(domains)
+      result = false
+      domains.each do |domain|
+        authorize(domain)
+        handle_challenge
+        request_challenge_verification
+        result = valid_verification_status
+        break unless result
+      end
+      result
+    end
+
     def generate_certificate
       create_client
       register
-      authorize
-      handle_challenge
-      request_challenge_verification
-      begin
+
+      domains = @options[:domain].split(' ')
+      if authorize_and_handle_challenge(domains)
         # We can now request a certificate
         Rails.logger.info('Creating CSR...')
-        save_certificate(@client.new_certificate(Acme::Client::CertificateRequest.new(names: %w(@options[:domain]))))
+        save_certificate(@client.new_certificate(Acme::Client::CertificateRequest.new(names: domains)))
         Rails.logger.info('Certificate has been generated.')
-      end if valid_verification_status
+      end
     end
 
     def create_client
@@ -71,12 +82,12 @@ module LetsencryptPlugin
       end
     end
 
-    def domain
+    def common_domain_name
       @domain ||= @options[:domain].split(' ').first.to_s
     end
 
-    def authorize
-      Rails.logger.info('Sending authorization request...')
+    def authorize(domain = common_domain_name)
+      Rails.logger.info("Sending authorization request for: #{domain}...")
       @authorization = @client.authorize(domain: domain)
     end
 
@@ -120,9 +131,9 @@ module LetsencryptPlugin
     # Save the certificate and key
     def save_certificate(certificate)
       begin
-        return HerokuOutput.new(domain, certificate).output unless ENV['DYNO'].nil?
+        return HerokuOutput.new(common_domain_name, certificate).output unless ENV['DYNO'].nil?
         output_dir = File.join(Rails.root, @options[:output_cert_dir])
-        return FileOutput.new(domain, certificate, output_dir).output if File.directory?(output_dir)
+        return FileOutput.new(common_domain_name, certificate, output_dir).output if File.directory?(output_dir)
         Rails.logger.error("Output directory: '#{output_dir}' does not exist!")
       end unless certificate.nil?
     end
