@@ -9,6 +9,7 @@ require 'acme/client'
 module LetsencryptPlugin
   class CertGenerator
     attr_reader :options
+    attr_writer :client
 
     def initialize(options = {})
       @options = options
@@ -28,9 +29,7 @@ module LetsencryptPlugin
     end
 
     def generate_certificate
-      create_client
       register
-
       domains = @options[:domain].split(' ')
       return unless authorize_and_handle_challenge(domains)
       # We can now request a certificate
@@ -39,7 +38,7 @@ module LetsencryptPlugin
       Rails.logger.info('Certificate has been generated.')
     end
 
-    def create_client
+    def client
       @client ||= Acme::Client.new(private_key: load_private_key, endpoint: @options[:endpoint])
     rescue Exception => e
       Rails.logger.error(e.to_s)
@@ -72,13 +71,11 @@ module LetsencryptPlugin
 
     def register
       Rails.logger.info('Trying to register at Let\'s Encrypt service...')
-      begin
-        registration = @client.register(contact: "mailto:#{@options[:email]}")
-        registration.agree_terms
-        Rails.logger.info('Registration succeed.')
-      rescue
-        Rails.logger.info('Already registered.')
-      end
+      registration = client.register(contact: "mailto:#{@options[:email]}")
+      registration.agree_terms
+      Rails.logger.info('Registration succeed.')
+    rescue
+      Rails.logger.info('Already registered.')
     end
 
     def common_domain_name
@@ -87,7 +84,7 @@ module LetsencryptPlugin
 
     def authorize(domain = common_domain_name)
       Rails.logger.info("Sending authorization request for: #{domain}...")
-      @authorization = @client.authorize(domain: domain)
+      @authorization = client.authorize(domain: domain)
     end
 
     def store_challenge(challenge)
