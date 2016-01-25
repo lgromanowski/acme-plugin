@@ -79,8 +79,6 @@ GEM
     metaclass (0.0.4)
     mime-types (2.99)
     mini_portile2 (2.0.0)
-    minispec-metadata (2.0.0)
-      minitest
     minitest (5.8.4)
     minitest-rails (2.2.0)
       minitest (~> 5.7)
@@ -90,10 +88,6 @@ GEM
       builder
       minitest (>= 5.0)
       ruby-progressbar
-    minitest-vcr (1.4.0)
-      minispec-metadata (~> 2.0)
-      minitest (>= 4.7.5)
-      vcr (>= 2.9)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
     multi_json (1.11.2)
@@ -158,7 +152,6 @@ GEM
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     url_safe_base64 (0.2.2)
-    vcr (3.0.1)
     webmock (1.22.6)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -173,7 +166,6 @@ DEPENDENCIES
   minitest
   minitest-rails
   minitest-reporters
-  minitest-vcr
   mocha
   rubocop
   simplecov

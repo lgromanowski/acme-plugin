@@ -28,18 +28,5 @@ if ActiveSupport::TestCase.respond_to?(:fixture_path=)
   ActiveSupport::TestCase.fixtures :all
 end
 
-# require 'webmock/minitest'
-# MinitestVcr::Spec.configure!
-
-# require 'vcr'
-# VCR.configure do |c|
-#   c.cassette_library_dir = File.expand_path('../../test/cassettes', __FILE__)
-#   # c.configure_rspec_metadata!
-#   c.hook_into :webmock
-#   c.ignore_localhost = false
-#   c.default_cassette_options = { record: :once, match_requests_on: [:method, :host, :path] }
-#   c.allow_http_connections_when_no_cassette = false
-#   c.debug_logger = File.open(File.join(File.expand_path('../../test/cassettes', __FILE__), 'letsencrypt.log'), 'w')
-# end
-
+require 'webmock/minitest'
 require 'mocha/mini_test'
