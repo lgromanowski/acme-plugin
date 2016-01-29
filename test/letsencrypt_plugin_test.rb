@@ -188,7 +188,7 @@ class LetsencryptPluginTest < ActiveSupport::TestCase
       .to_return(status: 200,
                  body: '{'\
                        ' "status": "valid",'\
-                       ' "expires": "2200-03-01",'\
+                       ' "expires": "2020-12-31T23:59:59+01:00",'\
                        ' "identifier":'\
                        ' {'\
                        '   "type": "dns", "value": "example.org"'\
