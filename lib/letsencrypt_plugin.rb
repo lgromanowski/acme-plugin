@@ -7,6 +7,15 @@ require 'openssl'
 require 'acme/client'
 
 module LetsencryptPlugin
+  Config = Class.new(OpenStruct)
+  def self.config=(options)
+    @config = Config.new(options || {})
+  end
+
+  def self.config
+    @config || Config.new
+  end
+
   class CertGenerator
     attr_reader :options
     attr_writer :client
