@@ -9,5 +9,5 @@
 #### 3. Steps to reproduce issue
 *Please insert text here*
 
-#### 4. Your configuration (ruby, rails vesrion, your Gemifile and Gemfile.lock files etc.)
+#### 4. Your configuration (ruby, rails version, your Gemifile and Gemfile.lock files etc.)
 *Please insert text here*
