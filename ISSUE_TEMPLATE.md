@@ -1,4 +1,4 @@
-*Please use \`\`\` \`\`\` for code, configuration or console output.*
+*Please use [markdown formatting](https://help.github.com/articles/basic-writing-and-formatting-syntax/#quoting-code) for code, configuration or console output.*
 
 #### 1. Expected behavior
 *Please insert text here*
