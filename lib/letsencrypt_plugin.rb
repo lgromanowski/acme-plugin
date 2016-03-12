@@ -49,7 +49,7 @@ module LetsencryptPlugin
 
     def client
       @client ||= Acme::Client.new(private_key: load_private_key, endpoint: @options[:endpoint])
-    rescue Exception => e
+    rescue StandardError => e
       Rails.logger.error(e.to_s)
       raise e
     end
@@ -59,21 +59,21 @@ module LetsencryptPlugin
     end
 
     def privkey_path
-      fail 'Private key is not set, please check your '\
+      raise 'Private key is not set, please check your '\
         'config/letsencrypt_plugin.yml file!' if @options[:private_key].nil? || @options[:private_key].empty?
       File.join(Rails.root, @options[:private_key])
     end
 
     def open_priv_key
       private_key_path = privkey_path
-      fail "Can not open private key: #{private_key_path}" unless File.exist?(private_key_path) && !File.directory?(private_key_path)
+      raise "Can not open private key: #{private_key_path}" unless File.exist?(private_key_path) && !File.directory?(private_key_path)
       OpenSSL::PKey::RSA.new(File.read(private_key_path))
     end
 
     def load_private_key
       Rails.logger.info('Loading private key...')
       private_key = open_priv_key
-      fail "Invalid key size: #{private_key.n.num_bits}." \
+      raise "Invalid key size: #{private_key.n.num_bits}." \
         ' Required size is between 2048 - 4096 bits' unless valid_key_size?(private_key)
       private_key
     end
