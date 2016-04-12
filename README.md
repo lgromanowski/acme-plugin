@@ -90,7 +90,7 @@ If you encounter a bug, issue or you have feature request please submit it in [i
 ## License
 
 ```
-Copyright 2015 Lukasz Gromanowski <lgromanowski@gmail.com>
+Copyright 2015, 2016 Lukasz Gromanowski <lgromanowski@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
