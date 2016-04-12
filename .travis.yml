@@ -5,3 +5,5 @@ rvm:
 addons:
   code_climate:
     repo_token: b56aa35f4ca3de48bd482927b75cb1a4eaa84bb11ddbb7c5eeab851f3e275cc6
+before_script:
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
