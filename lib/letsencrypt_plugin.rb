@@ -4,7 +4,7 @@ require 'letsencrypt_plugin/heroku_output'
 require 'letsencrypt_plugin/file_store'
 require 'letsencrypt_plugin/database_store'
 require 'openssl'
-require 'acme/client'
+require 'acme-client'
 
 module LetsencryptPlugin
   Config = Class.new(OpenStruct)
@@ -72,7 +72,14 @@ module LetsencryptPlugin
 
     def load_private_key
       Rails.logger.info('Loading private key...')
-      private_key = open_priv_key
+      if @options[:private_key_in_db].nil? || !@options[:private_key_in_db]
+        private_key = open_priv_key
+      else
+        settings = LetsencryptPlugin::Setting.first
+        raise 'Empty private_key field in settings table!' if settings.private_key.nil?
+        private_key = OpenSSL::PKey::RSA.new(settings.private_key)
+      end
+
       raise "Invalid key size: #{private_key.n.num_bits}." \
         ' Required size is between 2048 - 4096 bits' unless valid_key_size?(private_key)
       private_key

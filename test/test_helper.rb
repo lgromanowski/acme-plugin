@@ -29,4 +29,3 @@ if ActiveSupport::TestCase.respond_to?(:fixture_path=)
 end
 
 require 'webmock/minitest'
-require 'mocha/mini_test'
