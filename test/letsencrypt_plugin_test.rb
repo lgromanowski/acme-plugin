@@ -84,35 +84,33 @@ class LetsencryptPluginTest < ActiveSupport::TestCase
       .to_return(status: 200, body: '', headers: {})
 
     stub_request(:post, 'https://acme-staging.api.letsencrypt.org/acme/new-reg')
-      .with(body: '{"protected":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIm5vbmNlIjpudWxsLCJ'\
-                 'qd2siOnsia3R5IjoiUlNBIiwiZSI6IkFRQUIiLCJuIjoicTdILUNrcUR2d3pMdjlkQWdO'\
-                 'a0pkMzNhYlRKRWtGR0o4V2xiMUZ2dWNRejBBWFlycFlMeWo3TmFDckJvdFdTWkdqRUp0U'\
-                 'GdZNTNMVllNRE9QYjk5LS02RGszV1RoZE9tN1NNSU5WWFpWdWJoYTZraGNaRVhQNTRHYn'\
-                 'NDc3BQZjZuTnFCQnhIQ25Vd1dNRjhJUXFpME1XUjRxTnhtS2RFa3BOenRhQndMS1NGVlB'\
-                 'zUTB0RnlyR3pZYThMNE5CamVlMmlpRHVjNmx5TE5KejJ4X1FGTEFmZ3hsNXF3RWtORVRs'\
-                 'TTcyTUJUbE0za0dZOFIzdkZFTVRIUElLQjN1UHB3UnBNajhMNjNSS3p6ZnJjOUNGNkw0T'\
-                 'WhtNW9ORlBDZ3ZiQ0Vhek9HLUxKcDNkOG1ZU2YwREROUTZYaF9DZ0xuU21wM1VlZnJKYk'\
-                 'FRVGQwaUpOMWttU2lfX0JsTkdSQ0tXRWQ4MmcwNmh4MG1UYTl1WWREMTBTV2lReVB2SGw'\
-                 '0c1hEdzNCTDdFaTlZTzR6aDlIemZKc1FYcWNoc0J2VWdnRFRvSGVScDJ4ZktIRHJhRWdi'\
-                 'T19BcWhDMUZHZE1LT1JyTFpwTEJtaGpsNDBVbzFjS1F2bG5WSWRSWkI1OEJ6MmVIczQ1S'\
-                 'jdETmJLbEJtdnFmT0JyRTdPZzh3RGxVM1haSGd3UWZLeE1IQVdvUHNHdkRtSkY0WXRUZm'\
-                 'dEeDZmVktlTW54OXF6SUNKZUZWZmJ5M2lHOHRPV1BTSlhWVHF2dkJYYkJ6aU9IeG1fbDh'\
-                 '6Zmt1MFJpN0V2MFlFNlRCRlg2YjQ0REtBaVVvWnZFME5vbWl4YWJZdmQwMFhRTzZ3TjBf'\
-                 'aXZDek5nNFVZbWg5WVMycjNRN2JpaDRZMktzMlpZcXZzZGsxZy1mYjRmUXMifX0",'\
-                 '"payload":"eyJyZXNvdXJjZSI6Im5ldy1yZWciLCJjb250YWN0IjpbIm1haWx0bzpmb2'\
-                 '9iYXJiYXpAZXhhbXBsZS5jb20iXX0",'\
-                 '"signature":"qDseMT523-4XoGbgh2Qq0n7wzsvFJOp97ERrEWmBXqmPX2lJLZMIUrmm'\
-                 'JeW-_Yz4tI1TZ3NVX9WFSdyvq3Z67H776WkS8mAm5cc6LK6HcrScl_y9Sm3bqyipVD1EF'\
-                 'AkQxJixNOaWIoX-fSXZNXuchX4AfdKuDt1fg2_d2NzX1aLk4FOYxiko6i4HyvuA4Jp11q'\
-                 'JOldhPMQ5Vqrm4QgMd4CFHVEd9tK1-03ejnTgcjrtshrdelVoWLxEoh7_EAeB6oElA-V_'\
-                 '72eswPyhf_rfrRKbl8rHbrAS6UvBuKcdJfQFyWr1kXqTMw05EookJlbODQTpvzzVMIT9x'\
-                 'ANXvFQrWLeOgQup1tN1X-lIZA9leud3tLduCcG3HgR8tM7EdO7Ka0PtsHLkVrZuc6Arcu'\
-                 '0s4KY3_fImNi3UYUf1PvnP_JbAh2HKaugckqnmzy7F06r-rO0PEgNfMO5FOdJG1Fn2Csb'\
-                 'jUZw8jb1XK3CAwKXOjfu6fFxyvf7fxbgi4Y-OJWHxFM-6r-zFlTWs3lJbeSr80ZWdumbJ'\
-                 'h_i6XUN0FvyhbulMisPA7Tkw6Yk27nitRMVKDbswdmCurdJWc3T5Vi3zZ3V_Lshos9WVO'\
-                 'EsEE-TKTlIJv4dI7OpqUsRsD_jOOSxTeE7ZJC6A0jZsB0KSwLOdJJ42DDD5D8KFz9aIiX'\
-                 '8bEppg"}',
-            headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3' })
+      .with(body: '{"protected":"eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIiwibm9uY2UiOm51bGwsImp3ayI6eyJrdH'\
+                  'kiOiJSU0EiLCJlIjoiQVFBQiIsIm4iOiJxN0gtQ2txRHZ3ekx2OWRBZ05rSmQzM2FiVEpFa0ZHSjhXbG'\
+                  'IxRnZ1Y1F6MEFYWXJwWUx5ajdOYUNyQm90V1NaR2pFSnRQZ1k1M0xWWU1ET1BiOTktLTZEazNXVGhkT2'\
+                  '03U01JTlZYWlZ1YmhhNmtoY1pFWFA1NEdic0NzcFBmNm5OcUJCeEhDblV3V01GOElRcWkwTVdSNHFOeG'\
+                  '1LZEVrcE56dGFCd0xLU0ZWUHNRMHRGeXJHellhOEw0TkJqZWUyaWlEdWM2bHlMTkp6MnhfUUZMQWZneG'\
+                  'w1cXdFa05FVGxNNzJNQlRsTTNrR1k4UjN2RkVNVEhQSUtCM3VQcHdScE1qOEw2M1JLenpmcmM5Q0Y2TD'\
+                  'RNaG01b05GUENndmJDRWF6T0ctTEpwM2Q4bVlTZjBERE5RNlhoX0NnTG5TbXAzVWVmckpiQVFUZDBpSk'\
+                  '4xa21TaV9fQmxOR1JDS1dFZDgyZzA2aHgwbVRhOXVZZEQxMFNXaVF5UHZIbDRzWER3M0JMN0VpOVlPNH'\
+                  'poOUh6ZkpzUVhxY2hzQnZVZ2dEVG9IZVJwMnhmS0hEcmFFZ2JPX0FxaEMxRkdkTUtPUnJMWnBMQm1oam'\
+                  'w0MFVvMWNLUXZsblZJZFJaQjU4QnoyZUhzNDVKN0ROYktsQm12cWZPQnJFN09nOHdEbFUzWFpIZ3dRZk'\
+                  't4TUhBV29Qc0d2RG1KRjRZdFRmZ0R4NmZWS2VNbng5cXpJQ0plRlZmYnkzaUc4dE9XUFNKWFZUcXZ2Ql'\
+                  'hiQnppT0h4bV9sOHpma3UwUmk3RXYwWUU2VEJGWDZiNDRES0FpVW9adkUwTm9taXhhYll2ZDAwWFFPNn'\
+                  'dOMF9pdkN6Tmc0VVltaDlZUzJyM1E3YmloNFkyS3MyWllxdnNkazFnLWZiNGZRcyIsImtpZCI6IlFwSG'\
+                  'dDOWxCZ0ZEX1A0dV9aejBNd2x0V1dUN1g2QlRZZnVPNUlob1VrUDAifX0",'\
+                  '"payload":"eyJyZXNvdXJjZSI6Im5ldy1yZWciLCJjb250YWN0IjpbIm1haWx0bzpmb29iYXJiYXpAZ'\
+                  'XhhbXBsZS5jb20iXX0",'\
+                  '"signature":"nLsyF3pozzqEZZL_117-ku0re_z_i900UWVNbzGTe_xawyewgZNj0whPOcBd0WRs2aL'\
+                  'XBvsZsVGdoH3R6YpSLfJntoaz4PdtyeIq_XZroT6nUq1M3KM9MIOMkclONXAWJMdhaP5EYoai72i2-A7'\
+                  'H6JLKfsCKMV1dgc6SrPCpZiAkyuHxOlwJvyuo5Eg9z7FG6TRQ__EoaBYs0FrtO8PN7dTRK3QhPF3SZ4n'\
+                  'Xq1Z4qX7Y_k5XW-Tah3c1-IratC8WGeU_j5ULBw4gRMsycHJCQI5c_c_l6MDniGKvY23kMzKDQ5eoKgL'\
+                  'OXKd7J06_FQjbZPcMh-1Xsi2I2pDM1Ftepav-H7YRtgAlQs5-9JRUc7h6lUWCBTV3CLAbOgNTIRMcIuS'\
+                  'WmpoCzMBnuQfCvQGK6BNT0okqiHbbQzgK4qf_M0TMx5wVLgwM9snt70KpJ3XjcFSBXpC9QuwbFwTpwtg'\
+                  'D0APL1PCa-h45wAtsxJaXcIYcAnAHaaL0ghd4IkqtdFbZqydlm1WpdcLtdF5mgXm72OaGT-JRxWfZAII'\
+                  'Rm_aby34oBlb14Q3WFV339nT9sukZGrTAz9fRy2oRKzFVLLYBfft0fRAu1YcELrWHUtjQBi8KCrCkXjh'\
+                  'k1Lvrtr8xAxot1Hi-Gf1FkApH443cqB15H7S0W099h5KzaUVQouTg9iE"}',
+            headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                       'User-Agent' => 'Faraday v0.9.2' })
       .to_return(status: 200, body: '', headers: {})
 
     assert_nothing_raised do
@@ -134,35 +132,33 @@ class LetsencryptPluginTest < ActiveSupport::TestCase
       .to_return(status: 200, body: '', headers: {})
 
     stub_request(:post, 'https://acme-staging.api.letsencrypt.org/acme/new-reg')
-      .with(body: '{"protected":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIm5vbmNlIjpudWxsLCJ'\
-                 'qd2siOnsia3R5IjoiUlNBIiwiZSI6IkFRQUIiLCJuIjoicTdILUNrcUR2d3pMdjlkQWdO'\
-                 'a0pkMzNhYlRKRWtGR0o4V2xiMUZ2dWNRejBBWFlycFlMeWo3TmFDckJvdFdTWkdqRUp0U'\
-                 'GdZNTNMVllNRE9QYjk5LS02RGszV1RoZE9tN1NNSU5WWFpWdWJoYTZraGNaRVhQNTRHYn'\
-                 'NDc3BQZjZuTnFCQnhIQ25Vd1dNRjhJUXFpME1XUjRxTnhtS2RFa3BOenRhQndMS1NGVlB'\
-                 'zUTB0RnlyR3pZYThMNE5CamVlMmlpRHVjNmx5TE5KejJ4X1FGTEFmZ3hsNXF3RWtORVRs'\
-                 'TTcyTUJUbE0za0dZOFIzdkZFTVRIUElLQjN1UHB3UnBNajhMNjNSS3p6ZnJjOUNGNkw0T'\
-                 'WhtNW9ORlBDZ3ZiQ0Vhek9HLUxKcDNkOG1ZU2YwREROUTZYaF9DZ0xuU21wM1VlZnJKYk'\
-                 'FRVGQwaUpOMWttU2lfX0JsTkdSQ0tXRWQ4MmcwNmh4MG1UYTl1WWREMTBTV2lReVB2SGw'\
-                 '0c1hEdzNCTDdFaTlZTzR6aDlIemZKc1FYcWNoc0J2VWdnRFRvSGVScDJ4ZktIRHJhRWdi'\
-                 'T19BcWhDMUZHZE1LT1JyTFpwTEJtaGpsNDBVbzFjS1F2bG5WSWRSWkI1OEJ6MmVIczQ1S'\
-                 'jdETmJLbEJtdnFmT0JyRTdPZzh3RGxVM1haSGd3UWZLeE1IQVdvUHNHdkRtSkY0WXRUZm'\
-                 'dEeDZmVktlTW54OXF6SUNKZUZWZmJ5M2lHOHRPV1BTSlhWVHF2dkJYYkJ6aU9IeG1fbDh'\
-                 '6Zmt1MFJpN0V2MFlFNlRCRlg2YjQ0REtBaVVvWnZFME5vbWl4YWJZdmQwMFhRTzZ3TjBf'\
-                 'aXZDek5nNFVZbWg5WVMycjNRN2JpaDRZMktzMlpZcXZzZGsxZy1mYjRmUXMifX0",'\
-                 '"payload":"eyJyZXNvdXJjZSI6Im5ldy1yZWciLCJjb250YWN0IjpbIm1haWx0bzpmb2'\
-                 '9iYXJiYXpAZXhhbXBsZS5jb20iXX0",'\
-                 '"signature":"qDseMT523-4XoGbgh2Qq0n7wzsvFJOp97ERrEWmBXqmPX2lJLZMIUrmm'\
-                 'JeW-_Yz4tI1TZ3NVX9WFSdyvq3Z67H776WkS8mAm5cc6LK6HcrScl_y9Sm3bqyipVD1EF'\
-                 'AkQxJixNOaWIoX-fSXZNXuchX4AfdKuDt1fg2_d2NzX1aLk4FOYxiko6i4HyvuA4Jp11q'\
-                 'JOldhPMQ5Vqrm4QgMd4CFHVEd9tK1-03ejnTgcjrtshrdelVoWLxEoh7_EAeB6oElA-V_'\
-                 '72eswPyhf_rfrRKbl8rHbrAS6UvBuKcdJfQFyWr1kXqTMw05EookJlbODQTpvzzVMIT9x'\
-                 'ANXvFQrWLeOgQup1tN1X-lIZA9leud3tLduCcG3HgR8tM7EdO7Ka0PtsHLkVrZuc6Arcu'\
-                 '0s4KY3_fImNi3UYUf1PvnP_JbAh2HKaugckqnmzy7F06r-rO0PEgNfMO5FOdJG1Fn2Csb'\
-                 'jUZw8jb1XK3CAwKXOjfu6fFxyvf7fxbgi4Y-OJWHxFM-6r-zFlTWs3lJbeSr80ZWdumbJ'\
-                 'h_i6XUN0FvyhbulMisPA7Tkw6Yk27nitRMVKDbswdmCurdJWc3T5Vi3zZ3V_Lshos9WVO'\
-                 'EsEE-TKTlIJv4dI7OpqUsRsD_jOOSxTeE7ZJC6A0jZsB0KSwLOdJJ42DDD5D8KFz9aIiX'\
-                 '8bEppg"}',
-            headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3' })
+      .with(body: '{"protected":"eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIiwibm9uY2UiOm51bGwsImp3ayI6eyJrdH'\
+                  'kiOiJSU0EiLCJlIjoiQVFBQiIsIm4iOiJxN0gtQ2txRHZ3ekx2OWRBZ05rSmQzM2FiVEpFa0ZHSjhXbG'\
+                  'IxRnZ1Y1F6MEFYWXJwWUx5ajdOYUNyQm90V1NaR2pFSnRQZ1k1M0xWWU1ET1BiOTktLTZEazNXVGhkT2'\
+                  '03U01JTlZYWlZ1YmhhNmtoY1pFWFA1NEdic0NzcFBmNm5OcUJCeEhDblV3V01GOElRcWkwTVdSNHFOeG'\
+                  '1LZEVrcE56dGFCd0xLU0ZWUHNRMHRGeXJHellhOEw0TkJqZWUyaWlEdWM2bHlMTkp6MnhfUUZMQWZneG'\
+                  'w1cXdFa05FVGxNNzJNQlRsTTNrR1k4UjN2RkVNVEhQSUtCM3VQcHdScE1qOEw2M1JLenpmcmM5Q0Y2TD'\
+                  'RNaG01b05GUENndmJDRWF6T0ctTEpwM2Q4bVlTZjBERE5RNlhoX0NnTG5TbXAzVWVmckpiQVFUZDBpSk'\
+                  '4xa21TaV9fQmxOR1JDS1dFZDgyZzA2aHgwbVRhOXVZZEQxMFNXaVF5UHZIbDRzWER3M0JMN0VpOVlPNH'\
+                  'poOUh6ZkpzUVhxY2hzQnZVZ2dEVG9IZVJwMnhmS0hEcmFFZ2JPX0FxaEMxRkdkTUtPUnJMWnBMQm1oam'\
+                  'w0MFVvMWNLUXZsblZJZFJaQjU4QnoyZUhzNDVKN0ROYktsQm12cWZPQnJFN09nOHdEbFUzWFpIZ3dRZk'\
+                  't4TUhBV29Qc0d2RG1KRjRZdFRmZ0R4NmZWS2VNbng5cXpJQ0plRlZmYnkzaUc4dE9XUFNKWFZUcXZ2Ql'\
+                  'hiQnppT0h4bV9sOHpma3UwUmk3RXYwWUU2VEJGWDZiNDRES0FpVW9adkUwTm9taXhhYll2ZDAwWFFPNn'\
+                  'dOMF9pdkN6Tmc0VVltaDlZUzJyM1E3YmloNFkyS3MyWllxdnNkazFnLWZiNGZRcyIsImtpZCI6IlFwSG'\
+                  'dDOWxCZ0ZEX1A0dV9aejBNd2x0V1dUN1g2QlRZZnVPNUlob1VrUDAifX0",'\
+                  '"payload":"eyJyZXNvdXJjZSI6Im5ldy1yZWciLCJjb250YWN0IjpbIm1haWx0bzpmb29iYXJiYXpAZ'\
+                  'XhhbXBsZS5jb20iXX0",'\
+                  '"signature":"nLsyF3pozzqEZZL_117-ku0re_z_i900UWVNbzGTe_xawyewgZNj0whPOcBd0WRs2aL'\
+                  'XBvsZsVGdoH3R6YpSLfJntoaz4PdtyeIq_XZroT6nUq1M3KM9MIOMkclONXAWJMdhaP5EYoai72i2-A7'\
+                  'H6JLKfsCKMV1dgc6SrPCpZiAkyuHxOlwJvyuo5Eg9z7FG6TRQ__EoaBYs0FrtO8PN7dTRK3QhPF3SZ4n'\
+                  'Xq1Z4qX7Y_k5XW-Tah3c1-IratC8WGeU_j5ULBw4gRMsycHJCQI5c_c_l6MDniGKvY23kMzKDQ5eoKgL'\
+                  'OXKd7J06_FQjbZPcMh-1Xsi2I2pDM1Ftepav-H7YRtgAlQs5-9JRUc7h6lUWCBTV3CLAbOgNTIRMcIuS'\
+                  'WmpoCzMBnuQfCvQGK6BNT0okqiHbbQzgK4qf_M0TMx5wVLgwM9snt70KpJ3XjcFSBXpC9QuwbFwTpwtg'\
+                  'D0APL1PCa-h45wAtsxJaXcIYcAnAHaaL0ghd4IkqtdFbZqydlm1WpdcLtdF5mgXm72OaGT-JRxWfZAII'\
+                  'Rm_aby34oBlb14Q3WFV339nT9sukZGrTAz9fRy2oRKzFVLLYBfft0fRAu1YcELrWHUtjQBi8KCrCkXjh'\
+                  'k1Lvrtr8xAxot1Hi-Gf1FkApH443cqB15H7S0W099h5KzaUVQouTg9iE"}',
+            headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                       'User-Agent' => 'Faraday v0.9.2' })
       .to_return(status: 200, body: '', headers: {})
 
     assert_nothing_raised do
@@ -183,56 +179,54 @@ class LetsencryptPluginTest < ActiveSupport::TestCase
       .with(headers: { 'Accept' => '*/*' })
       .to_return(status: 200, body: '', headers: {})
 
-    protected_field = '"protected":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIm5vbmNlIjpudWxsLCJ'\
-                  'qd2siOnsia3R5IjoiUlNBIiwiZSI6IkFRQUIiLCJuIjoicTdILUNrcUR2d3pMdjlkQWdO'\
-                  'a0pkMzNhYlRKRWtGR0o4V2xiMUZ2dWNRejBBWFlycFlMeWo3TmFDckJvdFdTWkdqRUp0U'\
-                  'GdZNTNMVllNRE9QYjk5LS02RGszV1RoZE9tN1NNSU5WWFpWdWJoYTZraGNaRVhQNTRHYn'\
-                  'NDc3BQZjZuTnFCQnhIQ25Vd1dNRjhJUXFpME1XUjRxTnhtS2RFa3BOenRhQndMS1NGVlB'\
-                  'zUTB0RnlyR3pZYThMNE5CamVlMmlpRHVjNmx5TE5KejJ4X1FGTEFmZ3hsNXF3RWtORVRs'\
-                  'TTcyTUJUbE0za0dZOFIzdkZFTVRIUElLQjN1UHB3UnBNajhMNjNSS3p6ZnJjOUNGNkw0T'\
-                  'WhtNW9ORlBDZ3ZiQ0Vhek9HLUxKcDNkOG1ZU2YwREROUTZYaF9DZ0xuU21wM1VlZnJKYk'\
-                  'FRVGQwaUpOMWttU2lfX0JsTkdSQ0tXRWQ4MmcwNmh4MG1UYTl1WWREMTBTV2lReVB2SGw'\
-                  '0c1hEdzNCTDdFaTlZTzR6aDlIemZKc1FYcWNoc0J2VWdnRFRvSGVScDJ4ZktIRHJhRWdi'\
-                  'T19BcWhDMUZHZE1LT1JyTFpwTEJtaGpsNDBVbzFjS1F2bG5WSWRSWkI1OEJ6MmVIczQ1S'\
-                  'jdETmJLbEJtdnFmT0JyRTdPZzh3RGxVM1haSGd3UWZLeE1IQVdvUHNHdkRtSkY0WXRUZm'\
-                  'dEeDZmVktlTW54OXF6SUNKZUZWZmJ5M2lHOHRPV1BTSlhWVHF2dkJYYkJ6aU9IeG1fbDh'\
-                  '6Zmt1MFJpN0V2MFlFNlRCRlg2YjQ0REtBaVVvWnZFME5vbWl4YWJZdmQwMFhRTzZ3TjBf'\
-                  'aXZDek5nNFVZbWg5WVMycjNRN2JpaDRZMktzMlpZcXZzZGsxZy1mYjRmUXMifX0"'
+    protected_field = '"protected":"eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIiwibm9uY2UiOm51bGwsImp3ayI6eyJ'\
+                      'rdHkiOiJSU0EiLCJlIjoiQVFBQiIsIm4iOiJxN0gtQ2txRHZ3ekx2OWRBZ05rSmQzM2FiVEpFa0Z'\
+                      'HSjhXbGIxRnZ1Y1F6MEFYWXJwWUx5ajdOYUNyQm90V1NaR2pFSnRQZ1k1M0xWWU1ET1BiOTktLTZ'\
+                      'EazNXVGhkT203U01JTlZYWlZ1YmhhNmtoY1pFWFA1NEdic0NzcFBmNm5OcUJCeEhDblV3V01GOEl'\
+                      'RcWkwTVdSNHFOeG1LZEVrcE56dGFCd0xLU0ZWUHNRMHRGeXJHellhOEw0TkJqZWUyaWlEdWM2bHl'\
+                      'MTkp6MnhfUUZMQWZneGw1cXdFa05FVGxNNzJNQlRsTTNrR1k4UjN2RkVNVEhQSUtCM3VQcHdScE1'\
+                      'qOEw2M1JLenpmcmM5Q0Y2TDRNaG01b05GUENndmJDRWF6T0ctTEpwM2Q4bVlTZjBERE5RNlhoX0N'\
+                      'nTG5TbXAzVWVmckpiQVFUZDBpSk4xa21TaV9fQmxOR1JDS1dFZDgyZzA2aHgwbVRhOXVZZEQxMFN'\
+                      'XaVF5UHZIbDRzWER3M0JMN0VpOVlPNHpoOUh6ZkpzUVhxY2hzQnZVZ2dEVG9IZVJwMnhmS0hEcmF'\
+                      'FZ2JPX0FxaEMxRkdkTUtPUnJMWnBMQm1oamw0MFVvMWNLUXZsblZJZFJaQjU4QnoyZUhzNDVKN0R'\
+                      'OYktsQm12cWZPQnJFN09nOHdEbFUzWFpIZ3dRZkt4TUhBV29Qc0d2RG1KRjRZdFRmZ0R4NmZWS2V'\
+                      'Nbng5cXpJQ0plRlZmYnkzaUc4dE9XUFNKWFZUcXZ2QlhiQnppT0h4bV9sOHpma3UwUmk3RXYwWUU'\
+                      '2VEJGWDZiNDRES0FpVW9adkUwTm9taXhhYll2ZDAwWFFPNndOMF9pdkN6Tmc0VVltaDlZUzJyM1E'\
+                      '3YmloNFkyS3MyWllxdnNkazFnLWZiNGZRcyIsImtpZCI6IlFwSGdDOWxCZ0ZEX1A0dV9aejBNd2x'\
+                      '0V1dUN1g2QlRZZnVPNUlob1VrUDAifX0"'
 
     stub_request(:post, 'https://acme-staging.api.letsencrypt.org/acme/new-reg')
       .with(body: "{#{protected_field},"\
-                  '"payload":"eyJyZXNvdXJjZSI6Im5ldy1yZWciLCJjb250YWN0IjpbIm1haWx0bzpmb2'\
-                  '9iYXJiYXpAZXhhbXBsZS5jb20iXX0",'\
-                  '"signature":"qDseMT523-4XoGbgh2Qq0n7wzsvFJOp97ERrEWmBXqmPX2lJLZMIUrmm'\
-                  'JeW-_Yz4tI1TZ3NVX9WFSdyvq3Z67H776WkS8mAm5cc6LK6HcrScl_y9Sm3bqyipVD1EF'\
-                  'AkQxJixNOaWIoX-fSXZNXuchX4AfdKuDt1fg2_d2NzX1aLk4FOYxiko6i4HyvuA4Jp11q'\
-                  'JOldhPMQ5Vqrm4QgMd4CFHVEd9tK1-03ejnTgcjrtshrdelVoWLxEoh7_EAeB6oElA-V_'\
-                  '72eswPyhf_rfrRKbl8rHbrAS6UvBuKcdJfQFyWr1kXqTMw05EookJlbODQTpvzzVMIT9x'\
-                  'ANXvFQrWLeOgQup1tN1X-lIZA9leud3tLduCcG3HgR8tM7EdO7Ka0PtsHLkVrZuc6Arcu'\
-                  '0s4KY3_fImNi3UYUf1PvnP_JbAh2HKaugckqnmzy7F06r-rO0PEgNfMO5FOdJG1Fn2Csb'\
-                  'jUZw8jb1XK3CAwKXOjfu6fFxyvf7fxbgi4Y-OJWHxFM-6r-zFlTWs3lJbeSr80ZWdumbJ'\
-                  'h_i6XUN0FvyhbulMisPA7Tkw6Yk27nitRMVKDbswdmCurdJWc3T5Vi3zZ3V_Lshos9WVO'\
-                  'EsEE-TKTlIJv4dI7OpqUsRsD_jOOSxTeE7ZJC6A0jZsB0KSwLOdJJ42DDD5D8KFz9aIiX'\
-                  '8bEppg"}',
-            headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3' })
+                  '"payload":"eyJyZXNvdXJjZSI6Im5ldy1yZWciLCJjb250YWN0IjpbIm1haWx0bzpmb29iYXJiYXpAZ'\
+                  'XhhbXBsZS5jb20iXX0",'\
+                  '"signature":"nLsyF3pozzqEZZL_117-ku0re_z_i900UWVNbzGTe_xawyewgZNj0whPOcBd0WRs2aL'\
+                  'XBvsZsVGdoH3R6YpSLfJntoaz4PdtyeIq_XZroT6nUq1M3KM9MIOMkclONXAWJMdhaP5EYoai72i2-A7'\
+                  'H6JLKfsCKMV1dgc6SrPCpZiAkyuHxOlwJvyuo5Eg9z7FG6TRQ__EoaBYs0FrtO8PN7dTRK3QhPF3SZ4n'\
+                  'Xq1Z4qX7Y_k5XW-Tah3c1-IratC8WGeU_j5ULBw4gRMsycHJCQI5c_c_l6MDniGKvY23kMzKDQ5eoKgL'\
+                  'OXKd7J06_FQjbZPcMh-1Xsi2I2pDM1Ftepav-H7YRtgAlQs5-9JRUc7h6lUWCBTV3CLAbOgNTIRMcIuS'\
+                  'WmpoCzMBnuQfCvQGK6BNT0okqiHbbQzgK4qf_M0TMx5wVLgwM9snt70KpJ3XjcFSBXpC9QuwbFwTpwtg'\
+                  'D0APL1PCa-h45wAtsxJaXcIYcAnAHaaL0ghd4IkqtdFbZqydlm1WpdcLtdF5mgXm72OaGT-JRxWfZAII'\
+                  'Rm_aby34oBlb14Q3WFV339nT9sukZGrTAz9fRy2oRKzFVLLYBfft0fRAu1YcELrWHUtjQBi8KCrCkXjh'\
+                  'k1Lvrtr8xAxot1Hi-Gf1FkApH443cqB15H7S0W099h5KzaUVQouTg9iE"}',
+            headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                       'User-Agent' => 'Faraday v0.9.2' })
       .to_return(status: 200, body: '', headers: {})
 
     stub_request(:post, 'https://acme-staging.api.letsencrypt.org/acme/new-authz')
       .with(body: "{#{protected_field},"\
-                  '"payload":"eyJyZXNvdXJjZSI6Im5ldy1hdXRoeiIsImlkZW50aWZpZXIiOnsidHlwZS'\
-                  'I6ImRucyIsInZhbHVlIjoiZXhhbXBsZS5jb20ifX0",'\
-                  '"signature":"Fiam5Q6wPhO3Hbj3AR8-vUNPeuEEZ657vIDkX37WZ-WppkTce_Yr0MLe'\
-                  'hrnbna1SaC7Blg9E5ZawCzwQUPuUJZjBM7zn3czc4xb0KUxOpGxpa4N4dWzZMHlC2RfQk'\
-                  'mBda7qMID3ewAwANSsptpL8SzgnQgpUBTRyhE6CIbszKkwM0sJQKGM5HdZV3BVOTXRR5n'\
-                  'otWQA98kfaUKpSbjUNNZgKIOLlqyn8bOMUAZKR-VBw8MPOSbiXH_BBqOyfPjCAyg0wLuZ'\
-                  'mfFKl3oi_4jq7XEnowu9Lq5izFf3EiFsf-wksp9zoqqfGPdtPkLKG6PFrYm0jhM2XOP6m'\
-                  'bFkrTRcLtlKNp1xk8CEPHuNc_yx7nokTMDdErJQZleKPipygDsxrhUchK-w8ajjwqcItQ'\
-                  'Ndlitlo4J-PpSuwa3bIubVNzBHofjuEr1Xq3bCtT7QUAwhmvAbgkNaFoNcpseUR8W-1nY'\
-                  'eUOkSq1yTJ9RUVMNRuYraOPDO1SbuwGxLaHRs-p-W3cfvfLUzv3fKOam_h061_8rtTIa0'\
-                  'hjj_PAB6X1hiJRq62wpUCYuaEnUNqzRj6gIJn2OVYlWow3VsMkuZ2j_O3guPFALYF-f_W'\
-                  'hndWSLAi8XN7sJaGlo_oxpzVwi33GPHMp9InN71Y9Gt3-stDyKMJIsU2LRpef2wICGwWs'\
-                  '0wp7uU"}',
-            headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3' })
+                  '"payload":"eyJyZXNvdXJjZSI6Im5ldy1hdXRoeiIsImlkZW50aWZpZXIiOnsidHlwZSI6ImRucyIsI'\
+                  'nZhbHVlIjoiZXhhbXBsZS5jb20ifX0",'\
+                  '"signature":"HT-zZ3TtjW2fYhExfb0nGvayaBCMHj_C7PUncZH3I3FOCNspsbbuTSsdFYED6pJgOOW'\
+                  'itveFBMRl6rOnINIMO1h44-N_iDi8ff9eFwSMEFXcCxF0TR9pEESzvqv5WKhGY9BmY_gl5AEFb6tNMWy'\
+                  '2DIMJFyki5IwhTiILwfwFt_Xn74SPpjZ8VzO5h-gcBRP8wkHKW7K78jEP8ySuUz0zMinsyba7uLYWNJ2'\
+                  'r5Qt-gpBE603nch28G00kZuynN-ehCe6RIBsZ7vDyLp9K-V6MZ2P8_VCjcL69Fp06CDT_Nod_jNcRrZb'\
+                  '48n1_hL0kbkpD945oMdlgPOc1U1gPmkG6kboaOXMe7HS63fwMyreMyQj8SQVPXTRvAtfUVKzLL5hJJ-i'\
+                  'AWcj4KdN34cfuKBkodRuc_jtc0jZKtOanMwVKcJ_QFlYzWeVoCaqojBHhrGGkFZ4XZ2mrzRQ1yZV9yaE'\
+                  'r-aTH7zIMb30c2hwHuMt33hpT7H8abp-oOFvB5CkS4VsKYSpr8CPGM4J2zv8IyPFv4RrA4_TJ5Ev8Ang'\
+                  'DXPj_4b8BrzLFu6UOMi3YgjcmUiVuH4RXtDi166s2vBtak9lIVAleJWZQ1sbuKgc8ByyQHGgVN0XjnLX'\
+                  'BNIzEjJQNlyj7MgGGhGBOakqPqykaZRNQqnuBOpwM2zvzY1ZqGokCCXI"}',
+            headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                       'User-Agent' => 'Faraday v0.9.2' })
       .to_return(status: 200,
                  body: '{'\
                        ' "status": "valid",'\
