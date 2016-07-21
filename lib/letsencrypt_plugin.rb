@@ -90,7 +90,8 @@ module LetsencryptPlugin
       registration = client.register(contact: "mailto:#{@options[:email]}")
       registration.agree_terms
       Rails.logger.info('Registration succeed.')
-    rescue
+    rescue => e
+      Rails.logger.info("#{e.class} - #{e.message}")
       Rails.logger.info('Already registered.')
     end
 
