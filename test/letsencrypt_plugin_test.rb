@@ -100,15 +100,15 @@ class LetsencryptPluginTest < ActiveSupport::TestCase
                   'dDOWxCZ0ZEX1A0dV9aejBNd2x0V1dUN1g2QlRZZnVPNUlob1VrUDAifX0",'\
                   '"payload":"eyJyZXNvdXJjZSI6Im5ldy1yZWciLCJjb250YWN0IjpbIm1haWx0bzpmb29iYXJiYXpAZ'\
                   'XhhbXBsZS5jb20iXX0",'\
-                  '"signature":"nLsyF3pozzqEZZL_117-ku0re_z_i900UWVNbzGTe_xawyewgZNj0whPOcBd0WRs2aL'\
-                  'XBvsZsVGdoH3R6YpSLfJntoaz4PdtyeIq_XZroT6nUq1M3KM9MIOMkclONXAWJMdhaP5EYoai72i2-A7'\
-                  'H6JLKfsCKMV1dgc6SrPCpZiAkyuHxOlwJvyuo5Eg9z7FG6TRQ__EoaBYs0FrtO8PN7dTRK3QhPF3SZ4n'\
-                  'Xq1Z4qX7Y_k5XW-Tah3c1-IratC8WGeU_j5ULBw4gRMsycHJCQI5c_c_l6MDniGKvY23kMzKDQ5eoKgL'\
-                  'OXKd7J06_FQjbZPcMh-1Xsi2I2pDM1Ftepav-H7YRtgAlQs5-9JRUc7h6lUWCBTV3CLAbOgNTIRMcIuS'\
-                  'WmpoCzMBnuQfCvQGK6BNT0okqiHbbQzgK4qf_M0TMx5wVLgwM9snt70KpJ3XjcFSBXpC9QuwbFwTpwtg'\
-                  'D0APL1PCa-h45wAtsxJaXcIYcAnAHaaL0ghd4IkqtdFbZqydlm1WpdcLtdF5mgXm72OaGT-JRxWfZAII'\
-                  'Rm_aby34oBlb14Q3WFV339nT9sukZGrTAz9fRy2oRKzFVLLYBfft0fRAu1YcELrWHUtjQBi8KCrCkXjh'\
-                  'k1Lvrtr8xAxot1Hi-Gf1FkApH443cqB15H7S0W099h5KzaUVQouTg9iE"}',
+                  '"signature":"T4aKq85rcACJdyEEx_Dw90lLypyPba6GSyG1YlFjCMwM7qdRlCsb3YIJE_Eia-A9IV'\
+                  'lcXKc2rzvVOPvGB2bYmPCxep5o7uy1mkC7hKJhSEw97mT_sidrLamEKIrYtnVrW0KSO3EKEY-rUSMIeO'\
+                  'AqLuZosSXLCEDlQTLqPUJPrhm8pDBRLzEqUO1HIMLfOEH5bWwXHofxL_QqUQjzMqIh_VWqy08MxuWETh'\
+                  'DUyKPewBx1E_Y0H-vsM_D39SJA04s9fnIGyOlXISL1LZ9pFZ_W5rF25_P9vwks9m7E8iZFo-rFc073Ds'\
+                  'Mzc_-5VbUgAoAqDZA69q8FTkgUkA6pu-vZsxeIb6OUNS6wxt6U4dqYS1aBXnhLeKvbIb7NqFmY8erzvc'\
+                  'GXBvab1F0ndg6sw5PmrDZyOzcCKdA9eQk6LqCnfh8TcoywmJiqm2Ck49BUUe4t98AjvMNhaHel4Vn4HU'\
+                  'XGX5xOEmt7gtsIE6YJP04ZoRKeWCrbYwjYIfLNlsbXpZj5oXPzBxOvwBuS6KL2HweeUGObiBsxRLsc1B'\
+                  'oA_Na8Y2HtkWeZyUQPY1G3eSTPbBKR94T20LhcDSdNInzIFIhE5qI-WWCgHws6jB1K4Iip58zMgeTjGs'\
+                  'D5Rc8ttBJwfprac8hBqMST_rzo-gn70b-iT3PJkasUbm32UwOxXtavJ5g"}',
             headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
                        'User-Agent' => 'Faraday v0.9.2' })
       .to_return(status: 200, body: '', headers: {})
@@ -148,15 +148,15 @@ class LetsencryptPluginTest < ActiveSupport::TestCase
                   'dDOWxCZ0ZEX1A0dV9aejBNd2x0V1dUN1g2QlRZZnVPNUlob1VrUDAifX0",'\
                   '"payload":"eyJyZXNvdXJjZSI6Im5ldy1yZWciLCJjb250YWN0IjpbIm1haWx0bzpmb29iYXJiYXpAZ'\
                   'XhhbXBsZS5jb20iXX0",'\
-                  '"signature":"nLsyF3pozzqEZZL_117-ku0re_z_i900UWVNbzGTe_xawyewgZNj0whPOcBd0WRs2aL'\
-                  'XBvsZsVGdoH3R6YpSLfJntoaz4PdtyeIq_XZroT6nUq1M3KM9MIOMkclONXAWJMdhaP5EYoai72i2-A7'\
-                  'H6JLKfsCKMV1dgc6SrPCpZiAkyuHxOlwJvyuo5Eg9z7FG6TRQ__EoaBYs0FrtO8PN7dTRK3QhPF3SZ4n'\
-                  'Xq1Z4qX7Y_k5XW-Tah3c1-IratC8WGeU_j5ULBw4gRMsycHJCQI5c_c_l6MDniGKvY23kMzKDQ5eoKgL'\
-                  'OXKd7J06_FQjbZPcMh-1Xsi2I2pDM1Ftepav-H7YRtgAlQs5-9JRUc7h6lUWCBTV3CLAbOgNTIRMcIuS'\
-                  'WmpoCzMBnuQfCvQGK6BNT0okqiHbbQzgK4qf_M0TMx5wVLgwM9snt70KpJ3XjcFSBXpC9QuwbFwTpwtg'\
-                  'D0APL1PCa-h45wAtsxJaXcIYcAnAHaaL0ghd4IkqtdFbZqydlm1WpdcLtdF5mgXm72OaGT-JRxWfZAII'\
-                  'Rm_aby34oBlb14Q3WFV339nT9sukZGrTAz9fRy2oRKzFVLLYBfft0fRAu1YcELrWHUtjQBi8KCrCkXjh'\
-                  'k1Lvrtr8xAxot1Hi-Gf1FkApH443cqB15H7S0W099h5KzaUVQouTg9iE"}',
+                  '"signature":"T4aKq85rcACJdyEEx_Dw90lLypyPba6GSyG1YlFjCMwM7qdRlCsb3YIJE_Eia-A9IVl'\
+                  'cXKc2rzvVOPvGB2bYmPCxep5o7uy1mkC7hKJhSEw97mT_sidrLamEKIrYtnVrW0KSO3EKEY-rUSMIeOA'\
+                  'qLuZosSXLCEDlQTLqPUJPrhm8pDBRLzEqUO1HIMLfOEH5bWwXHofxL_QqUQjzMqIh_VWqy08MxuWEThD'\
+                  'UyKPewBx1E_Y0H-vsM_D39SJA04s9fnIGyOlXISL1LZ9pFZ_W5rF25_P9vwks9m7E8iZFo-rFc073DsM'\
+                  'zc_-5VbUgAoAqDZA69q8FTkgUkA6pu-vZsxeIb6OUNS6wxt6U4dqYS1aBXnhLeKvbIb7NqFmY8erzvcG'\
+                  'XBvab1F0ndg6sw5PmrDZyOzcCKdA9eQk6LqCnfh8TcoywmJiqm2Ck49BUUe4t98AjvMNhaHel4Vn4HUX'\
+                  'GX5xOEmt7gtsIE6YJP04ZoRKeWCrbYwjYIfLNlsbXpZj5oXPzBxOvwBuS6KL2HweeUGObiBsxRLsc1Bo'\
+                  'A_Na8Y2HtkWeZyUQPY1G3eSTPbBKR94T20LhcDSdNInzIFIhE5qI-WWCgHws6jB1K4Iip58zMgeTjGsD'\
+                  '5Rc8ttBJwfprac8hBqMST_rzo-gn70b-iT3PJkasUbm32UwOxXtavJ5g"}',
             headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
                        'User-Agent' => 'Faraday v0.9.2' })
       .to_return(status: 200, body: '', headers: {})
@@ -199,15 +199,15 @@ class LetsencryptPluginTest < ActiveSupport::TestCase
       .with(body: "{#{protected_field},"\
                   '"payload":"eyJyZXNvdXJjZSI6Im5ldy1yZWciLCJjb250YWN0IjpbIm1haWx0bzpmb29iYXJiYXpAZ'\
                   'XhhbXBsZS5jb20iXX0",'\
-                  '"signature":"nLsyF3pozzqEZZL_117-ku0re_z_i900UWVNbzGTe_xawyewgZNj0whPOcBd0WRs2aL'\
-                  'XBvsZsVGdoH3R6YpSLfJntoaz4PdtyeIq_XZroT6nUq1M3KM9MIOMkclONXAWJMdhaP5EYoai72i2-A7'\
-                  'H6JLKfsCKMV1dgc6SrPCpZiAkyuHxOlwJvyuo5Eg9z7FG6TRQ__EoaBYs0FrtO8PN7dTRK3QhPF3SZ4n'\
-                  'Xq1Z4qX7Y_k5XW-Tah3c1-IratC8WGeU_j5ULBw4gRMsycHJCQI5c_c_l6MDniGKvY23kMzKDQ5eoKgL'\
-                  'OXKd7J06_FQjbZPcMh-1Xsi2I2pDM1Ftepav-H7YRtgAlQs5-9JRUc7h6lUWCBTV3CLAbOgNTIRMcIuS'\
-                  'WmpoCzMBnuQfCvQGK6BNT0okqiHbbQzgK4qf_M0TMx5wVLgwM9snt70KpJ3XjcFSBXpC9QuwbFwTpwtg'\
-                  'D0APL1PCa-h45wAtsxJaXcIYcAnAHaaL0ghd4IkqtdFbZqydlm1WpdcLtdF5mgXm72OaGT-JRxWfZAII'\
-                  'Rm_aby34oBlb14Q3WFV339nT9sukZGrTAz9fRy2oRKzFVLLYBfft0fRAu1YcELrWHUtjQBi8KCrCkXjh'\
-                  'k1Lvrtr8xAxot1Hi-Gf1FkApH443cqB15H7S0W099h5KzaUVQouTg9iE"}',
+                  '"signature":"T4aKq85rcACJdyEEx_Dw90lLypyPba6GSyG1YlFjCMwM7qdRlCsb3YIJE_Eia-A9IVl'\
+                  'cXKc2rzvVOPvGB2bYmPCxep5o7uy1mkC7hKJhSEw97mT_sidrLamEKIrYtnVrW0KSO3EKEY-rUSMIeOA'\
+                  'qLuZosSXLCEDlQTLqPUJPrhm8pDBRLzEqUO1HIMLfOEH5bWwXHofxL_QqUQjzMqIh_VWqy08MxuWEThD'\
+                  'UyKPewBx1E_Y0H-vsM_D39SJA04s9fnIGyOlXISL1LZ9pFZ_W5rF25_P9vwks9m7E8iZFo-rFc073DsM'\
+                  'zc_-5VbUgAoAqDZA69q8FTkgUkA6pu-vZsxeIb6OUNS6wxt6U4dqYS1aBXnhLeKvbIb7NqFmY8erzvcG'\
+                  'XBvab1F0ndg6sw5PmrDZyOzcCKdA9eQk6LqCnfh8TcoywmJiqm2Ck49BUUe4t98AjvMNhaHel4Vn4HUX'\
+                  'GX5xOEmt7gtsIE6YJP04ZoRKeWCrbYwjYIfLNlsbXpZj5oXPzBxOvwBuS6KL2HweeUGObiBsxRLsc1Bo'\
+                  'A_Na8Y2HtkWeZyUQPY1G3eSTPbBKR94T20LhcDSdNInzIFIhE5qI-WWCgHws6jB1K4Iip58zMgeTjGsD'\
+                  '5Rc8ttBJwfprac8hBqMST_rzo-gn70b-iT3PJkasUbm32UwOxXtavJ5g"}',
             headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
                        'User-Agent' => 'Faraday v0.9.2' })
       .to_return(status: 200, body: '', headers: {})
@@ -216,15 +216,15 @@ class LetsencryptPluginTest < ActiveSupport::TestCase
       .with(body: "{#{protected_field},"\
                   '"payload":"eyJyZXNvdXJjZSI6Im5ldy1hdXRoeiIsImlkZW50aWZpZXIiOnsidHlwZSI6ImRucyIsI'\
                   'nZhbHVlIjoiZXhhbXBsZS5jb20ifX0",'\
-                  '"signature":"HT-zZ3TtjW2fYhExfb0nGvayaBCMHj_C7PUncZH3I3FOCNspsbbuTSsdFYED6pJgOOW'\
-                  'itveFBMRl6rOnINIMO1h44-N_iDi8ff9eFwSMEFXcCxF0TR9pEESzvqv5WKhGY9BmY_gl5AEFb6tNMWy'\
-                  '2DIMJFyki5IwhTiILwfwFt_Xn74SPpjZ8VzO5h-gcBRP8wkHKW7K78jEP8ySuUz0zMinsyba7uLYWNJ2'\
-                  'r5Qt-gpBE603nch28G00kZuynN-ehCe6RIBsZ7vDyLp9K-V6MZ2P8_VCjcL69Fp06CDT_Nod_jNcRrZb'\
-                  '48n1_hL0kbkpD945oMdlgPOc1U1gPmkG6kboaOXMe7HS63fwMyreMyQj8SQVPXTRvAtfUVKzLL5hJJ-i'\
-                  'AWcj4KdN34cfuKBkodRuc_jtc0jZKtOanMwVKcJ_QFlYzWeVoCaqojBHhrGGkFZ4XZ2mrzRQ1yZV9yaE'\
-                  'r-aTH7zIMb30c2hwHuMt33hpT7H8abp-oOFvB5CkS4VsKYSpr8CPGM4J2zv8IyPFv4RrA4_TJ5Ev8Ang'\
-                  'DXPj_4b8BrzLFu6UOMi3YgjcmUiVuH4RXtDi166s2vBtak9lIVAleJWZQ1sbuKgc8ByyQHGgVN0XjnLX'\
-                  'BNIzEjJQNlyj7MgGGhGBOakqPqykaZRNQqnuBOpwM2zvzY1ZqGokCCXI"}',
+                  '"signature":"Rz1azArX57oCwc4fw9K12zNoMk5v0w7A22NyKrPQ9p2V7KOvUeAQyc4QJ7joGB0D5J1'\
+                  'RNiz1_hQEsCiY8mSOqUAJiUIMEJLrPiFEBtIaDPh3ho9LxBdrfm2Dy-iszMD08tTu5xU7fxuPamJAloh'\
+                  '08vVNBDG17TSpSjNH69u8_lzwNGwVB4NlV_-L5PynDebDtXLGYP9EuUzVEB4PzJTyLD0p5wT7CGopDtr'\
+                  '4zX8a4sOhKIILLJwNNa3AiAW01SE6hPMAmCDn-drVDt5jtxDUaNwEQMSWtzEj5EbKK10dGFB7mIHFmky'\
+                  'VCuNn_qx8pG1HYGKwbq61itrwLhXclNmDeCtJMiWGUQPnfNCsmmvI_b9VNCEnc7f7iXnQZpUhIamM3Gz'\
+                  'JAePDMbjVku08-49cosOfU5k5xSs8b2xubxMivnGwXVmkUCfQe3uuqDE_zTsgvh8o6f3akeP22bwFWBy'\
+                  'ihaTim1cXNEuMWEPfWBiScI41hE577K4MUNRhH9-Bp9cFzzUbvJA0q1ao_JSeNyuJyi0DOBjJb7aV3TI'\
+                  'xaf8Q8S1D-X3PT7AGwDYJudpDDC60Go6qUlu-3B4eY9hLXzqPc7CUK1kO_NrIVsu3xL-IlRiqhw-IFgT'\
+                  'NCUc03c6G-5lB24itAHufVZ3pww50viSs9Sj-9D5Nu5e_x9lqv8U6VdU"}',
             headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
                        'User-Agent' => 'Faraday v0.9.2' })
       .to_return(status: 200,
