@@ -12,6 +12,12 @@ module LetsencryptPlugin
     @config = Config.new(options || {})
   end
 
+  def self.config_file=(file_path)
+    options = YAML.load_file(file_path)
+    options.merge! options.fetch(Rails.env, {})
+    @config = Config.new(options || {})
+  end
+
   def self.config
     @config || Config.new
   end
