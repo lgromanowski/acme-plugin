@@ -3,23 +3,18 @@ require 'letsencrypt_plugin/file_output'
 require 'letsencrypt_plugin/heroku_output'
 require 'letsencrypt_plugin/file_store'
 require 'letsencrypt_plugin/database_store'
+require 'letsencrypt_plugin/configuration'
 require 'openssl'
 require 'acme-client'
 
 module LetsencryptPlugin
-  Config = Class.new(OpenStruct)
-  def self.config=(options)
-    @config = Config.new(options || {})
-  end
-
-  def self.config_file=(file_path)
-    options = YAML.load_file(file_path)
-    options.merge! options.fetch(Rails.env, {})
-    @config = Config.new(options || {})
-  end
 
   def self.config
-    @config || Config.new
+    @config
+  end
+
+  def self.config=(config)
+    @config = config
   end
 
   class CertGenerator
