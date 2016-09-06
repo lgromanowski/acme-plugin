@@ -10,7 +10,8 @@ require 'acme-client'
 module LetsencryptPlugin
 
   def self.config
-    @config
+    # load files on demand
+    @config ||= Configuration.load_file
   end
 
   def self.config=(config)
