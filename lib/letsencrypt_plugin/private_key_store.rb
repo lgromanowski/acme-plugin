@@ -14,7 +14,7 @@ class PrivateKeyStore
     raise "Invalid key size: #{pk.n.num_bits}. Required size is between 2048 - 4096 bits" unless valid_key_size?(pk)
     pk
   rescue OpenSSL::PKey::RSAError => e
-    raise "#{pk_id} is not a valid private key identifier"
+    raise "#{pk} is not a valid private key identifier"
   end
 
   private 
