@@ -76,7 +76,6 @@ class LetsencryptPluginTest < ActiveSupport::TestCase
                                               domain: 'example.com',
                                               email: 'foobarbaz@example.com')
 
-    cg.client = Acme::Client.new(private_key: cg.load_private_key, endpoint: cg.options[:endpoint])
     assert !cg.nil?
 
     stub_request(:head, 'https://acme-staging.api.letsencrypt.org/acme/new-reg')
@@ -124,7 +123,6 @@ class LetsencryptPluginTest < ActiveSupport::TestCase
                                               domain: 'example.com',
                                               email: 'foobarbaz@example.com')
 
-    cg.client = Acme::Client.new(private_key: cg.load_private_key, endpoint: cg.options[:endpoint])
     assert !cg.nil?
 
     stub_request(:head, 'https://acme-staging.api.letsencrypt.org/acme/new-reg')
@@ -172,7 +170,6 @@ class LetsencryptPluginTest < ActiveSupport::TestCase
                                               domain: 'example.com',
                                               email: 'foobarbaz@example.com')
 
-    cg.client = Acme::Client.new(private_key: cg.load_private_key, endpoint: cg.options[:endpoint])
     assert !cg.nil?
 
     stub_request(:head, 'https://acme-staging.api.letsencrypt.org/acme/new-reg')

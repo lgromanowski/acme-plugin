@@ -4,7 +4,7 @@ require 'letsencrypt_plugin/heroku_output'
 require 'letsencrypt_plugin/file_store'
 require 'letsencrypt_plugin/database_store'
 require 'letsencrypt_plugin/configuration'
-require 'openssl'
+require 'letsencrypt_plugin/private_key_store'
 require 'acme-client'
 
 module LetsencryptPlugin
@@ -27,6 +27,16 @@ module LetsencryptPlugin
       @options.freeze
     end
 
+    def generate_certificate
+      register
+      domains = @options[:domain].split(' ')
+      return unless authorize_and_handle_challenge(domains)
+      # We can now request a certificate
+      Rails.logger.info('Creating CSR...')
+      save_certificate(@client.new_certificate(Acme::Client::CertificateRequest.new(names: domains)))
+      Rails.logger.info('Certificate has been generated.')
+    end
+
     def authorize_and_handle_challenge(domains)
       result = false
       domains.each do |domain|
@@ -39,53 +49,43 @@ module LetsencryptPlugin
       result
     end
 
-    def generate_certificate
-      register
-      domains = @options[:domain].split(' ')
-      return unless authorize_and_handle_challenge(domains)
-      # We can now request a certificate
-      Rails.logger.info('Creating CSR...')
-      save_certificate(@client.new_certificate(Acme::Client::CertificateRequest.new(names: domains)))
-      Rails.logger.info('Certificate has been generated.')
-    end
-
     def client
-      @client ||= Acme::Client.new(private_key: load_private_key, endpoint: @options[:endpoint])
-    rescue StandardError => e
-      Rails.logger.error(e.to_s)
-      raise e
+      @client ||= Acme::Client.new(private_key: private_key, endpoint: @options[:endpoint])
     end
 
-    def valid_key_size?(key)
-      key.n.num_bits >= 2048 && key.n.num_bits <= 4096
-    end
-
-    def privkey_path
-      raise 'Private key is not set, please check your '\
-        'config/letsencrypt_plugin.yml file!' if @options[:private_key].nil? || @options[:private_key].empty?
-      File.join(Rails.root, @options[:private_key])
-    end
-
-    def open_priv_key
-      private_key_path = privkey_path
-      raise "Can not open private key: #{private_key_path}" unless File.exist?(private_key_path) && !File.directory?(private_key_path)
-      OpenSSL::PKey::RSA.new(File.read(private_key_path))
-    end
-
-    def load_private_key
-      Rails.logger.info('Loading private key...')
-      if @options[:private_key_in_db].nil? || !@options[:private_key_in_db]
-        private_key = open_priv_key
-      else
-        settings = LetsencryptPlugin::Setting.first
-        raise 'Empty private_key field in settings table!' if settings.private_key.nil?
-        private_key = OpenSSL::PKey::RSA.new(settings.private_key)
+    def private_key
+      if @options.fetch(:private_key_in_db, false)
+        store ||= PrivateKeyStore.new(private_key_from_db)
       end
 
-      raise "Invalid key size: #{private_key.n.num_bits}." \
-        ' Required size is between 2048 - 4096 bits' unless valid_key_size?(private_key)
-      private_key
+      pk_id = @options.fetch(:private_key, nil)
+
+      raise "Private key is not set, please check your config/letsencrypt_plugin.yml file!" if pk_id.nil? || pk_id.empty?
+
+      if File.file?(private_key_path(pk_id))
+        store ||= PrivateKeyStore.new(private_key_from_file(private_key_path(pk_id)))
+      end
+
+      raise "Can not open private key: #{private_key_path(pk_id)}" if File.directory?(private_key_path(pk_id))
+
+      store ||= PrivateKeyStore.new(pk_id)
+      store.retrieve
     end
+
+    def private_key_path(private_key_file)
+      Rails.root.join(private_key_file)
+    end
+
+    def private_key_from_db
+      settings = LetsencryptPlugin::Setting.first
+      raise 'Empty private_key field in settings table!' if settings.private_key.nil?
+      settings.private_key
+    end
+
+    def private_key_from_file(filepath)
+      File.read(filepath)
+    end
+
 
     def register
       Rails.logger.info('Trying to register at Let\'s Encrypt service...')
