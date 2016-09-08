@@ -54,6 +54,7 @@ GEM
     ast (2.3.0)
     bindata (2.3.1)
     builder (3.2.2)
+    byebug (9.0.5)
     codeclimate-test-reporter (0.6.0)
       simplecov (>= 0.7.1, < 1.0.0)
     concurrent-ruby (1.0.2)
@@ -173,6 +174,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  byebug
   codeclimate-test-reporter
   letsencrypt_plugin!
   minitest
@@ -185,4 +187,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.11.2
+   1.12.5
