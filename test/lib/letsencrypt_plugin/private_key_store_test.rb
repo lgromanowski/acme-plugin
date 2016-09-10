@@ -2,7 +2,6 @@ require 'test_helper'
 
 class PrivateKeyStoreTest < ActiveSupport::TestCase
   # Note we should probably stub the implementation of OpenSSL key generation
-
   test 'if_keysize_smaller_than_2048_is_invalid' do
     exception = assert_raises RuntimeError do
       PrivateKeyStore.new(1024).retrieve
@@ -28,5 +27,4 @@ class PrivateKeyStoreTest < ActiveSupport::TestCase
       PrivateKeyStore.new(2048).retrieve
     end
   end
-
 end

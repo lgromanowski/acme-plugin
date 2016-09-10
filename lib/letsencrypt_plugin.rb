@@ -8,7 +8,6 @@ require 'letsencrypt_plugin/private_key_store'
 require 'acme-client'
 
 module LetsencryptPlugin
-
   def self.config
     # load files on demand
     @config ||= Configuration.load_file
@@ -60,11 +59,9 @@ module LetsencryptPlugin
 
       pk_id = @options.fetch(:private_key, nil)
 
-      raise "Private key is not set, please check your config/letsencrypt_plugin.yml file!" if pk_id.nil? || pk_id.empty?
+      raise 'Private key is not set, please check your config/letsencrypt_plugin.yml file!' if pk_id.nil? || pk_id.empty?
 
-      if File.file?(private_key_path(pk_id))
-        store ||= PrivateKeyStore.new(private_key_from_file(private_key_path(pk_id)))
-      end
+      store ||= PrivateKeyStore.new(private_key_from_file(private_key_path(pk_id))) if File.file?(private_key_path(pk_id))
 
       raise "Can not open private key: #{private_key_path(pk_id)}" if File.directory?(private_key_path(pk_id))
 
@@ -85,7 +82,6 @@ module LetsencryptPlugin
     def private_key_from_file(filepath)
       File.read(filepath)
     end
-
 
     def register
       Rails.logger.info('Trying to register at Let\'s Encrypt service...')
