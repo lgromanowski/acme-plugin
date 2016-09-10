@@ -71,7 +71,7 @@ class LetsencryptPluginTest < ActiveSupport::TestCase
   end
 
   test 'register with text based private key' do
-    cg = LetsencryptPlugin::CertGenerator.new(private_key: %{
+    cg = LetsencryptPlugin::CertGenerator.new(private_key: %(
 -----BEGIN RSA PRIVATE KEY-----
 MIIJKQIBAAKCAgEAq7H+CkqDvwzLv9dAgNkJd33abTJEkFGJ8Wlb1FvucQz0AXYr
 pYLyj7NaCrBotWSZGjEJtPgY53LVYMDOPb99++6Dk3WThdOm7SMINVXZVubha6kh
@@ -122,19 +122,19 @@ Uf7iAxu2pPHOSNGYBqigR3faq+WfDXEpgG6fpOGRPGA6dKoz+XK48Bh32ggTbyeU
 ZK/V50gulSGNn7WngWDJRRv5KaO27RGnpH9P4lOW3iTbHlq+AVvyoflvKeyFEEFb
 1puR60qLkicz16bFy39CdKC7gyWVR7qJu4SkTqx44/uNchS2h/EF6HTuiBQBMocn
 /YMHuMW7AvB459zhSHqzvZiMN3spTQMCvDicTCFfNuw95++1qUaB8WLGqZju
------END RSA PRIVATE KEY-----},
-  endpoint: 'https://acme-staging.api.letsencrypt.org',
-  domain: 'example.com',
-  email: 'foobarbaz@example.com')
+-----END RSA PRIVATE KEY-----),
+                                              endpoint: 'https://acme-staging.api.letsencrypt.org',
+                                              domain: 'example.com',
+                                              email: 'foobarbaz@example.com')
 
     assert !cg.nil?
 
     stub_request(:head, 'https://acme-staging.api.letsencrypt.org/acme/new-reg')
-    .with(headers: { 'Accept' => '*/*' })
-    .to_return(status: 200, body: '', headers: {})
+      .with(headers: { 'Accept' => '*/*' })
+      .to_return(status: 200, body: '', headers: {})
 
     stub_request(:post, 'https://acme-staging.api.letsencrypt.org/acme/new-reg')
-    .with(body: '{"protected":"eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIiwibm9uY2UiOm51bGwsImp3ayI6eyJrdH'\
+      .with(body: '{"protected":"eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIiwibm9uY2UiOm51bGwsImp3ayI6eyJrdH'\
           'kiOiJSU0EiLCJlIjoiQVFBQiIsIm4iOiJxN0gtQ2txRHZ3ekx2OWRBZ05rSmQzM2FiVEpFa0ZHSjhXbG'\
           'IxRnZ1Y1F6MEFYWXJwWUx5ajdOYUNyQm90V1NaR2pFSnRQZ1k1M0xWWU1ET1BiOTktLTZEazNXVGhkT2'\
           '03U01JTlZYWlZ1YmhhNmtoY1pFWFA1NEdic0NzcFBmNm5OcUJCeEhDblV3V01GOElRcWkwTVdSNHFOeG'\
@@ -143,22 +143,22 @@ ZK/V50gulSGNn7WngWDJRRv5KaO27RGnpH9P4lOW3iTbHlq+AVvyoflvKeyFEEFb
           'RNaG01b05GUENndmJDRWF6T0ctTEpwM2Q4bVlTZjBERE5RNlhoX0NnTG5TbXAzVWVmckpiQVFUZDBpSk'\
           '4xa21TaV9fQmxOR1JDS1dFZDgyZzA2aHgwbVRhOXVZZEQxMFNXaVF5UHZIbDRzWER3M0JMN0VpOVlPNH'\
           'poOUh6ZkpzUVhxY2hzQnZVZ2dEVG9IZVJwMnhmS0hEcmFFZ2JPX0FxaEMxRkdkTUtPUnJMWnBMQm1oam'\
-                  'w0MFVvMWNLUXZsblZJZFJaQjU4QnoyZUhzNDVKN0ROYktsQm12cWZPQnJFN09nOHdEbFUzWFpIZ3dRZk'\
-                  't4TUhBV29Qc0d2RG1KRjRZdFRmZ0R4NmZWS2VNbng5cXpJQ0plRlZmYnkzaUc4dE9XUFNKWFZUcXZ2Ql'\
-                  'hiQnppT0h4bV9sOHpma3UwUmk3RXYwWUU2VEJGWDZiNDRES0FpVW9adkUwTm9taXhhYll2ZDAwWFFPNn'\
-                  'dOMF9pdkN6Tmc0VVltaDlZUzJyM1E3YmloNFkyS3MyWllxdnNkazFnLWZiNGZRcyIsImtpZCI6IlFwSG'\
-                  'dDOWxCZ0ZEX1A0dV9aejBNd2x0V1dUN1g2QlRZZnVPNUlob1VrUDAifX0",'\
-                  '"payload":"eyJyZXNvdXJjZSI6Im5ldy1yZWciLCJjb250YWN0IjpbIm1haWx0bzpmb29iYXJiYXpAZ'\
-                  'XhhbXBsZS5jb20iXX0",'\
-                  '"signature":"T4aKq85rcACJdyEEx_Dw90lLypyPba6GSyG1YlFjCMwM7qdRlCsb3YIJE_Eia-A9IV'\
-                  'lcXKc2rzvVOPvGB2bYmPCxep5o7uy1mkC7hKJhSEw97mT_sidrLamEKIrYtnVrW0KSO3EKEY-rUSMIeO'\
-                  'AqLuZosSXLCEDlQTLqPUJPrhm8pDBRLzEqUO1HIMLfOEH5bWwXHofxL_QqUQjzMqIh_VWqy08MxuWETh'\
-                  'DUyKPewBx1E_Y0H-vsM_D39SJA04s9fnIGyOlXISL1LZ9pFZ_W5rF25_P9vwks9m7E8iZFo-rFc073Ds'\
-                  'Mzc_-5VbUgAoAqDZA69q8FTkgUkA6pu-vZsxeIb6OUNS6wxt6U4dqYS1aBXnhLeKvbIb7NqFmY8erzvc'\
-                  'GXBvab1F0ndg6sw5PmrDZyOzcCKdA9eQk6LqCnfh8TcoywmJiqm2Ck49BUUe4t98AjvMNhaHel4Vn4HU'\
-                  'XGX5xOEmt7gtsIE6YJP04ZoRKeWCrbYwjYIfLNlsbXpZj5oXPzBxOvwBuS6KL2HweeUGObiBsxRLsc1B'\
-                  'oA_Na8Y2HtkWeZyUQPY1G3eSTPbBKR94T20LhcDSdNInzIFIhE5qI-WWCgHws6jB1K4Iip58zMgeTjGs'\
-                  'D5Rc8ttBJwfprac8hBqMST_rzo-gn70b-iT3PJkasUbm32UwOxXtavJ5g"}',
+          'w0MFVvMWNLUXZsblZJZFJaQjU4QnoyZUhzNDVKN0ROYktsQm12cWZPQnJFN09nOHdEbFUzWFpIZ3dRZk'\
+          't4TUhBV29Qc0d2RG1KRjRZdFRmZ0R4NmZWS2VNbng5cXpJQ0plRlZmYnkzaUc4dE9XUFNKWFZUcXZ2Ql'\
+          'hiQnppT0h4bV9sOHpma3UwUmk3RXYwWUU2VEJGWDZiNDRES0FpVW9adkUwTm9taXhhYll2ZDAwWFFPNn'\
+          'dOMF9pdkN6Tmc0VVltaDlZUzJyM1E3YmloNFkyS3MyWllxdnNkazFnLWZiNGZRcyIsImtpZCI6IlFwSG'\
+          'dDOWxCZ0ZEX1A0dV9aejBNd2x0V1dUN1g2QlRZZnVPNUlob1VrUDAifX0",'\
+          '"payload":"eyJyZXNvdXJjZSI6Im5ldy1yZWciLCJjb250YWN0IjpbIm1haWx0bzpmb29iYXJiYXpAZ'\
+          'XhhbXBsZS5jb20iXX0",'\
+          '"signature":"T4aKq85rcACJdyEEx_Dw90lLypyPba6GSyG1YlFjCMwM7qdRlCsb3YIJE_Eia-A9IV'\
+          'lcXKc2rzvVOPvGB2bYmPCxep5o7uy1mkC7hKJhSEw97mT_sidrLamEKIrYtnVrW0KSO3EKEY-rUSMIeO'\
+          'AqLuZosSXLCEDlQTLqPUJPrhm8pDBRLzEqUO1HIMLfOEH5bWwXHofxL_QqUQjzMqIh_VWqy08MxuWETh'\
+          'DUyKPewBx1E_Y0H-vsM_D39SJA04s9fnIGyOlXISL1LZ9pFZ_W5rF25_P9vwks9m7E8iZFo-rFc073Ds'\
+          'Mzc_-5VbUgAoAqDZA69q8FTkgUkA6pu-vZsxeIb6OUNS6wxt6U4dqYS1aBXnhLeKvbIb7NqFmY8erzvc'\
+          'GXBvab1F0ndg6sw5PmrDZyOzcCKdA9eQk6LqCnfh8TcoywmJiqm2Ck49BUUe4t98AjvMNhaHel4Vn4HU'\
+          'XGX5xOEmt7gtsIE6YJP04ZoRKeWCrbYwjYIfLNlsbXpZj5oXPzBxOvwBuS6KL2HweeUGObiBsxRLsc1B'\
+          'oA_Na8Y2HtkWeZyUQPY1G3eSTPbBKR94T20LhcDSdNInzIFIhE5qI-WWCgHws6jB1K4Iip58zMgeTjGs'\
+          'D5Rc8ttBJwfprac8hBqMST_rzo-gn70b-iT3PJkasUbm32UwOxXtavJ5g"}',
             headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
                        'User-Agent' => 'Faraday v0.9.2' })
       .to_return(status: 200, body: '', headers: {})
