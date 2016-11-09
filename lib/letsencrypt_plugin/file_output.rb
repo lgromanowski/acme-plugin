@@ -8,7 +8,7 @@ module LetsencryptPlugin
     end
 
     def output_cert(cert_type, cert_content)
-      File.write(File.join(@output_dir, "#{@domain}-#{cert_type}"), cert_content)
+      File.open(File.join(@output_dir, "#{@domain}-#{cert_type}").to_s, 'w'){ |f| f.write cert_content }
     end
 
     def display_info

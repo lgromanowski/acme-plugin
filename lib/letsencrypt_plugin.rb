@@ -19,6 +19,7 @@ module LetsencryptPlugin
 
   class CertGenerator
     attr_reader :options
+    attr_reader :cert
     attr_writer :client
 
     def initialize(options = {})
@@ -32,7 +33,8 @@ module LetsencryptPlugin
       return unless authorize_and_handle_challenge(domains)
       # We can now request a certificate
       Rails.logger.info('Creating CSR...')
-      save_certificate(@client.new_certificate(Acme::Client::CertificateRequest.new(names: domains)))
+      @cert = @client.new_certificate(Acme::Client::CertificateRequest.new(names: domains))
+      save_certificate(@cert)
       Rails.logger.info('Certificate has been generated.')
     end
 
@@ -143,6 +145,7 @@ module LetsencryptPlugin
     def save_certificate(certificate)
       begin
         return HerokuOutput.new(common_domain_name, certificate).output unless ENV['DYNO'].nil?
+        @cert = certificate
         output_dir = File.join(Rails.root, @options[:output_cert_dir])
         return FileOutput.new(common_domain_name, certificate, output_dir).output if File.directory?(output_dir)
         Rails.logger.error("Output directory: '#{output_dir}' does not exist!")
