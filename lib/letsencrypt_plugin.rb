@@ -145,7 +145,6 @@ module LetsencryptPlugin
     def save_certificate(certificate)
       begin
         return HerokuOutput.new(common_domain_name, certificate).output unless ENV['DYNO'].nil?
-        @cert = certificate
         output_dir = File.join(Rails.root, @options[:output_cert_dir])
         return FileOutput.new(common_domain_name, certificate, output_dir).output if File.directory?(output_dir)
         Rails.logger.error("Output directory: '#{output_dir}' does not exist!")
