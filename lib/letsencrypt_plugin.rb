@@ -19,6 +19,7 @@ module LetsencryptPlugin
 
   class CertGenerator
     attr_reader :options
+    attr_reader :cert
     attr_writer :client
 
     def initialize(options = {})
@@ -32,7 +33,8 @@ module LetsencryptPlugin
       return unless authorize_and_handle_challenge(domains)
       # We can now request a certificate
       Rails.logger.info('Creating CSR...')
-      save_certificate(@client.new_certificate(Acme::Client::CertificateRequest.new(names: domains)))
+      @cert = @client.new_certificate(Acme::Client::CertificateRequest.new(names: domains))
+      save_certificate(@cert)
       Rails.logger.info('Certificate has been generated.')
     end
 
