@@ -96,7 +96,7 @@ module LetsencryptPlugin
     end
 
     def common_domain_name
-      @domain ||= @options[:domain].split(' ').first.to_s
+      @domain ||= @options[:cert_name] || @options[:domain].split(' ').first.to_s
     end
 
     def authorize(domain = common_domain_name)

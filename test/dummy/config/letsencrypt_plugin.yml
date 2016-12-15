@@ -7,10 +7,13 @@ default: &default
   private_key_in_db: true
 
 production:
+  cert_name: 'production'
   <<: *default
 
 development:
+  cert_name: 'development'
   <<: *default
 
 test:
+  cert_name: 'test'
   <<: *default
