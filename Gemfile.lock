@@ -2,13 +2,13 @@ PATH
   remote: .
   specs:
     letsencrypt_plugin (0.0.9)
-      acme-client (~> 0.4.1)
+      acme-client (~> 0.6.1)
       rails (>= 4.2)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    acme-client (0.4.1)
+    acme-client (0.6.1)
       faraday (~> 0.9, >= 0.9.1)
     actioncable (5.1.2)
       actionpack (= 5.1.2)
