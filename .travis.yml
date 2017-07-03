@@ -8,4 +8,4 @@ addons:
 before_script:
   - RAILS_ENV=test bundle exec rake db:migrate --trace
 after_script:
-  - CODECLIMATE_REPO_TOKEN=$repo_token bundle exec codeclimate-test-reporter
+  - CODECLIMATE_REPO_TOKEN=b56aa35f4ca3de48bd482927b75cb1a4eaa84bb11ddbb7c5eeab851f3e275cc6 bundle exec codeclimate-test-reporter
