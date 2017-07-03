@@ -1,7 +1,7 @@
 module LetsencryptPlugin
   Config = Class.new(OpenStruct)
 
-  # This is a class whose responcsibility is to load the lets_encrypt configuration file
+  # This is a class whose responsibility is to load the lets_encrypt configuration file
   module Configuration
     def self.load_file(filename = Rails.root.join('config', 'letsencrypt_plugin.yml'))
       config_data = parse_yaml_file(filename)

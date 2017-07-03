@@ -55,9 +55,7 @@ module LetsencryptPlugin
     end
 
     def private_key
-      if @options.fetch(:private_key_in_db, false)
-        store ||= PrivateKeyStore.new(private_key_from_db)
-      end
+      store ||= PrivateKeyStore.new(private_key_from_db) if @options.fetch(:private_key_in_db, false)
 
       pk_id = @options.fetch(:private_key, nil)
 
@@ -133,22 +131,19 @@ module LetsencryptPlugin
 
     def valid_verification_status
       wait_for_status(@challenge)
-      begin
-        Rails.logger.error('Challenge verification failed! ' \
-          "Error: #{@challenge.error['type']}: #{@challenge.error['detail']}")
-        return false
-      end unless @challenge.verify_status == 'valid'
-      true
+      return true if @challenge.verify_status == 'valid'
+      Rails.logger.error('Challenge verification failed! ' \
+        "Error: #{@challenge.error['type']}: #{@challenge.error['detail']}")
+      false
     end
 
     # Save the certificate and key
     def save_certificate(certificate)
-      begin
-        return HerokuOutput.new(common_domain_name, certificate).output unless ENV['DYNO'].nil?
-        output_dir = File.join(Rails.root, @options[:output_cert_dir])
-        return FileOutput.new(common_domain_name, certificate, output_dir).output if File.directory?(output_dir)
-        Rails.logger.error("Output directory: '#{output_dir}' does not exist!")
-      end unless certificate.nil?
+      return unless certificate
+      return HerokuOutput.new(common_domain_name, certificate).output unless ENV['DYNO'].nil?
+      output_dir = File.join(Rails.root, @options[:output_cert_dir])
+      return FileOutput.new(common_domain_name, certificate, output_dir).output if File.directory?(output_dir)
+      Rails.logger.error("Output directory: '#{output_dir}' does not exist!")
     end
   end
 end
