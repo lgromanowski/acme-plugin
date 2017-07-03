@@ -1,10 +1,11 @@
-# letsencrypt-plugin 
+# letsencrypt-plugin
 [![Build Status](https://travis-ci.org/lgromanowski/letsencrypt-plugin.svg?branch=master)](https://travis-ci.org/lgromanowski/letsencrypt-plugin) [![Gem Version](https://badge.fury.io/rb/letsencrypt_plugin.svg)](https://badge.fury.io/rb/letsencrypt_plugin) [![Dependency Status](https://gemnasium.com/lgromanowski/letsencrypt-plugin.svg)](https://gemnasium.com/lgromanowski/letsencrypt-plugin) [![Code Climate](https://codeclimate.com/github/lgromanowski/letsencrypt-plugin/badges/gpa.svg)](https://codeclimate.com/github/lgromanowski/letsencrypt-plugin) [![Test Coverage](https://codeclimate.com/github/lgromanowski/letsencrypt-plugin/badges/coverage.svg)](https://codeclimate.com/github/lgromanowski/letsencrypt-plugin/coverage)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://tldrlegal.com/license/mit-license)
 
 `letsencrypt-plugin` is a Ruby on Rails helper for [Let's Encrypt](https://letsencrypt.org/) service for retrieving SSL certificates (without using sudo, like original letsencrypt client does). It uses [acme-client](https://github.com/unixcharles/acme-client) gem for communication with Let's Encrypt server.
 
 **Important note:** As of version 0.0.3 of this gem dependency to SQLite has been removed (it can be used on [Heroku](https://www.heroku.com/) - certificates will be displayed on console, after that please follow [SSL-Endpoint](https://devcenter.heroku.com/articles/ssl-endpoint) guide).
- 
+
 
 ## Installation
 
@@ -85,7 +86,7 @@ I, [2016-01-01T08:22:14.579963 #3]  INFO -- : Certificate has been generated.
 
 ## Bugs, issues, feature requests?
 
-If you encounter a bug, issue or you have feature request please submit it in [issue tracker](https://github.com/lgromanowski/letsencrypt-plugin/issues). 
+If you encounter a bug, issue or you have feature request please submit it in [issue tracker](https://github.com/lgromanowski/letsencrypt-plugin/issues).
 
 ## License
 
