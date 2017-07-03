@@ -18,9 +18,7 @@ module LetsencryptPlugin
   end
 
   class CertGenerator
-    attr_reader :options
-    attr_reader :cert
-    attr_writer :client
+    attr_reader :options, :cert, :client
 
     def initialize(options = {})
       @options = options
@@ -89,8 +87,7 @@ module LetsencryptPlugin
       registration.agree_terms
       Rails.logger.info('Registration succeed.')
     rescue => e
-      Rails.logger.info("#{e.class} - #{e.message}")
-      Rails.logger.info('Already registered.')
+      Rails.logger.info("#{e.class} - #{e.message}. Already registered.")
     end
 
     def common_domain_name
