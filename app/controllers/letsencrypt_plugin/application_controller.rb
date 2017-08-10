@@ -18,7 +18,7 @@ module LetsencryptPlugin
     end
 
     def challenge_response
-      @response = LetsencryptPlugin.config.challenge_dir_name ? Challenge.new : Challenge.first
+      @response = LetsencryptPlugin.config.challenge_dir_name.present? ? Challenge.new : Challenge.first
       challenge_failed('Challenge failed - Can not get response from database!') if @response.nil?
     end
 
