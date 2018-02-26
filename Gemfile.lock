@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    acme_plugin (0.0.10)
+    acme_plugin (0.0.13)
       acme-client (~> 0.6.2)
       rails (>= 4.2)
 
@@ -159,8 +159,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  codeclimate-test-reporter (~> 1.0.8)
   acme_plugin!
+  codeclimate-test-reporter (~> 1.0.8)
   minitest (~> 5.11.3)
   minitest-rails (~> 3.0.0)
   minitest-reporters (~> 1.1.19)
