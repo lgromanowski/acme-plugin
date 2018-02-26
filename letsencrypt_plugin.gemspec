@@ -12,9 +12,9 @@ Gem::Specification.new do |s|
   s.email       = ['lgromanowski@gmail.com']
   s.homepage    = 'https://github.com/lgromanowski/letsencrypt-plugin'
   s.summary     = 'Let\'s encrypt plugin for Ruby on Rails applications'
-  s.description = '**'
+  s.description = '**'\
                   '** letsencrypt-plugin gem has been renamed to acme-plugin, please use acme-plugin instead'\
-                  '**'
+                  '**'\
                   'letsencrypt-plugin is a Ruby on Rails helper for Let\'s Encrypt service ' \
                   'for retrieving SSL certificates (without using sudo, like original letsencrypt ' \
                   'client does). It uses acme-client gem for communication with Let\'s Encrypt server. '
