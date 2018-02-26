@@ -1,20 +1,20 @@
-# letsencrypt-plugin
-[![Build Status](https://travis-ci.org/lgromanowski/letsencrypt-plugin.svg?branch=master)](https://travis-ci.org/lgromanowski/letsencrypt-plugin) [![Gem Version](https://badge.fury.io/rb/letsencrypt_plugin.svg)](https://badge.fury.io/rb/letsencrypt_plugin) [![Dependency Status](https://gemnasium.com/lgromanowski/letsencrypt-plugin.svg)](https://gemnasium.com/lgromanowski/letsencrypt-plugin) [![Code Climate](https://codeclimate.com/github/lgromanowski/letsencrypt-plugin/badges/gpa.svg)](https://codeclimate.com/github/lgromanowski/letsencrypt-plugin) [![Test Coverage](https://codeclimate.com/github/lgromanowski/letsencrypt-plugin/badges/coverage.svg)](https://codeclimate.com/github/lgromanowski/letsencrypt-plugin/coverage)
+# acme-plugin
+[![Build Status](https://travis-ci.org/lgromanowski/acme-plugin.svg?branch=master)](https://travis-ci.org/lgromanowski/acme-plugin) [![Gem Version](https://badge.fury.io/rb/acme_plugin.svg)](https://badge.fury.io/rb/acme_plugin) [![Dependency Status](https://gemnasium.com/lgromanowski/acme-plugin.svg)](https://gemnasium.com/lgromanowski/acme-plugin) [![Code Climate](https://codeclimate.com/github/lgromanowski/acme-plugin/badges/gpa.svg)](https://codeclimate.com/github/lgromanowski/acme-plugin) [![Test Coverage](https://codeclimate.com/github/lgromanowski/acme-plugin/badges/coverage.svg)](https://codeclimate.com/github/lgromanowski/acme-plugin/coverage)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://tldrlegal.com/license/mit-license)
 
-`letsencrypt-plugin` is a Ruby on Rails helper for [Let's Encrypt](https://letsencrypt.org/) service for retrieving SSL certificates (without using sudo, like original letsencrypt client does). It uses [acme-client](https://github.com/unixcharles/acme-client) gem for communication with Let's Encrypt server.
+`acme-plugin` is a Ruby on Rails helper for [Let's Encrypt](https://letsencrypt.org/) service for retrieving SSL certificates (without using sudo, like original letsencrypt client does). It uses [acme-client](https://github.com/unixcharles/acme-client) gem for communication with Let's Encrypt server.
 
 **Important note:** As of version 0.0.3 of this gem dependency to SQLite has been removed (it can be used on [Heroku](https://www.heroku.com/) - certificates will be displayed on console, after that please follow [SSL-Endpoint](https://devcenter.heroku.com/articles/ssl-endpoint) guide).
 
 
 ## Installation
 
-For detailed installation guide please visit [Installation-guide](https://github.com/lgromanowski/letsencrypt-plugin/wiki/Installation-guide) wiki page.
+For detailed installation guide please visit [Installation-guide](https://github.com/lgromanowski/acme-plugin/wiki/Installation-guide) wiki page.
 
 ## Usage
-Run `letsencrypt_plugin` rake task:
+Run `acme_plugin` rake task:
 ```bash
-$ rake letsencrypt_plugin
+$ rake acme_plugin
 ```
 
 If everything was done correctly, then you should see output similar to the one below:
@@ -38,8 +38,8 @@ and in `output_cert_dir` directory you should have four files:
 Or if running on Heroku (certificates content removed for brevity):
 
 ```
-$ heroku run rake letsencrypt_plugin
-Running rake letsencrypt_plugin on protected-headland-4855... up, run.8779
+$ heroku run rake acme_plugin
+Running rake acme_plugin on protected-headland-4855... up, run.8779
 I, [2016-01-01T08:22:10.039679 #3]  INFO -- : Loading private key...
 I, [2016-01-01T08:22:10.042417 #3]  INFO -- : Trying to register at Let's Encrypt service...
 I, [2016-01-01T08:22:10.277835 #3]  INFO -- : Already registered.
@@ -86,12 +86,12 @@ I, [2016-01-01T08:22:14.579963 #3]  INFO -- : Certificate has been generated.
 
 ## Bugs, issues, feature requests?
 
-If you encounter a bug, issue or you have feature request please submit it in [issue tracker](https://github.com/lgromanowski/letsencrypt-plugin/issues).
+If you encounter a bug, issue or you have feature request please submit it in [issue tracker](https://github.com/lgromanowski/acme-plugin/issues).
 
 ## License
 
 ```
-Copyright 2015-2017 Lukasz Gromanowski <lgromanowski@gmail.com>
+Copyright 2015-2018 Lukasz Gromanowski <lgromanowski@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

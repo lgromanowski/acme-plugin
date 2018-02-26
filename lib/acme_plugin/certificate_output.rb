@@ -1,4 +1,4 @@
-module LetsencryptPlugin
+module AcmePlugin
   class CertificateOutput
     def initialize(domain, cert)
       @certificate = cert

@@ -1,9 +1,9 @@
 require 'test_helper'
 
-module LetsencryptPlugin
+module AcmePlugin
   class ApplicationControllerTest < ActionController::TestCase
     setup do
-      @routes = LetsencryptPlugin::Engine.routes
+      @routes = AcmePlugin::Engine.routes
     end
 
     test 'if challenge request is invalid when is smaller than 128 bits' do

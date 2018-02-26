@@ -12,13 +12,13 @@
 
 ActiveRecord::Schema.define(version: 20160412195212) do
 
-  create_table "letsencrypt_plugin_challenges", force: :cascade do |t|
+  create_table "acme_plugin_challenges", force: :cascade do |t|
     t.text "response"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "letsencrypt_plugin_settings", force: :cascade do |t|
+  create_table "acme_plugin_settings", force: :cascade do |t|
     t.text "private_key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

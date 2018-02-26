@@ -1,4 +1,4 @@
-module LetsencryptPlugin
+module AcmePlugin
   class ChallengeStore
     def initialize(challenge_content)
       @content = challenge_content

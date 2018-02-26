@@ -1,9 +1,9 @@
-module LetsencryptPlugin
+module AcmePlugin
   Config = Class.new(OpenStruct)
 
   # This is a class whose responsibility is to load the lets_encrypt configuration file
   module Configuration
-    def self.load_file(filename = Rails.root.join('config', 'letsencrypt_plugin.yml'))
+    def self.load_file(filename = Rails.root.join('config', 'acme_plugin.yml'))
       config_data = parse_yaml_file(filename)
       create_config(config_data)
     end

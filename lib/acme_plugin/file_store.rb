@@ -1,6 +1,6 @@
-require 'letsencrypt_plugin/challenge_store'
+require 'acme_plugin/challenge_store'
 
-module LetsencryptPlugin
+module AcmePlugin
   class FileStore < ChallengeStore
     def initialize(challenge_content, challenge_dir_name)
       super(challenge_content)

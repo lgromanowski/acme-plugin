@@ -1,6 +1,6 @@
 require 'test_helper'
 
-module LetsencryptPlugin
+module AcmePlugin
   class ChallengeTest < ActiveSupport::TestCase
   end
 end

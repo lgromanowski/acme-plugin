@@ -1,6 +1,6 @@
-require 'letsencrypt_plugin/certificate_output'
+require 'acme_plugin/certificate_output'
 
-module LetsencryptPlugin
+module AcmePlugin
   class HerokuOutput < CertificateOutput
     def initialize(domain, cert)
       super(domain, cert)

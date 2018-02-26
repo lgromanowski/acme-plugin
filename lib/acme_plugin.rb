@@ -1,13 +1,13 @@
-require 'letsencrypt_plugin/engine'
-require 'letsencrypt_plugin/file_output'
-require 'letsencrypt_plugin/heroku_output'
-require 'letsencrypt_plugin/file_store'
-require 'letsencrypt_plugin/database_store'
-require 'letsencrypt_plugin/configuration'
-require 'letsencrypt_plugin/private_key_store'
+require 'acme_plugin/engine'
+require 'acme_plugin/file_output'
+require 'acme_plugin/heroku_output'
+require 'acme_plugin/file_store'
+require 'acme_plugin/database_store'
+require 'acme_plugin/configuration'
+require 'acme_plugin/private_key_store'
 require 'acme-client'
 
-module LetsencryptPlugin
+module AcmePlugin
   def self.config
     # load files on demand
     @config ||= Configuration.load_file
@@ -57,7 +57,7 @@ module LetsencryptPlugin
 
       pk_id = @options.fetch(:private_key, nil)
 
-      raise 'Private key is not set, please check your config/letsencrypt_plugin.yml file!' if pk_id.nil? || pk_id.empty?
+      raise 'Private key is not set, please check your config/acme_plugin.yml file!' if pk_id.nil? || pk_id.empty?
 
       store ||= PrivateKeyStore.new(private_key_from_file(private_key_path(pk_id))) if File.file?(private_key_path(pk_id))
 
@@ -72,7 +72,7 @@ module LetsencryptPlugin
     end
 
     def private_key_from_db
-      settings = LetsencryptPlugin::Setting.first
+      settings = AcmePlugin::Setting.first
       raise 'Empty private_key field in settings table!' if settings.private_key.nil?
       settings.private_key
     end

@@ -9,7 +9,7 @@ task setup_logger: :environment do
 end
 
 desc "Generates SSL certificate using Let's Encrypt service"
-task letsencrypt_plugin: :setup_logger do
-  cert_generator = LetsencryptPlugin::CertGenerator.new(LetsencryptPlugin.config.to_h)
+task acme_plugin: :setup_logger do
+  cert_generator = AcmePlugin::CertGenerator.new(AcmePlugin.config.to_h)
   cert_generator.generate_certificate
 end

@@ -1,6 +1,6 @@
-require 'letsencrypt_plugin/certificate_output'
+require 'acme_plugin/certificate_output'
 
-module LetsencryptPlugin
+module AcmePlugin
   class FileOutput < CertificateOutput
     def initialize(domain, cert, out_dir)
       super(domain, cert)

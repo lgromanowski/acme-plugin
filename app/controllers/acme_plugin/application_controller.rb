@@ -1,4 +1,4 @@
-module LetsencryptPlugin
+module AcmePlugin
   class ApplicationController < ActionController::Base
     before_action :challenge_response, only: [:index]
     before_action :validate_length, only: [:index]
@@ -18,7 +18,7 @@ module LetsencryptPlugin
     end
 
     def challenge_response
-      @response = LetsencryptPlugin.config.challenge_dir_name.present? ? Challenge.new : Challenge.first
+      @response = AcmePlugin.config.challenge_dir_name.present? ? Challenge.new : Challenge.first
       challenge_failed('Challenge failed - Can not get response from database!') if @response.nil?
     end
 
