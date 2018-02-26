@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class LetsencryptPluginTest < ActiveSupport::TestCase
-  ACME_VERSION = 'v0.6.1'.freeze
+  ACME_VERSION = 'v0.6.2'.freeze
   ACME_USER_AGENT = "Acme::Client #{ACME_VERSION} (https://github.com/unixcharles/acme-client)".freeze
   ENDPOINT_URL = 'https://acme-staging.api.letsencrypt.org'.freeze
   API_URL = "#{ENDPOINT_URL}/acme".freeze
