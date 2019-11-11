@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'acme-client', '~>0.6.2'
   s.add_dependency 'rails', '>=4.2'
-  s.add_dependency 'nokogiri', '~>1.8.1'
+  s.add_dependency 'nokogiri', '>=1.8.1', '<1.11.0'
 
   s.add_development_dependency 'codeclimate-test-reporter', '~>1.0.8'
   s.add_development_dependency 'minitest', '~>5.11.3'
